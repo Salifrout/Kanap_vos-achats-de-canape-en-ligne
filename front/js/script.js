@@ -12,7 +12,7 @@ fetch("http://localhost:3000/api/products")
             let listofproducts = response.json();
         }
     })
-    then(function(value) {
+    .then(function(value) {
         let imageofproduct = value.imageUrl;
         let AlternativeTextofproduct = value.altTxt + ", " + value.name;
         let nameofproduct = value.name;
@@ -25,21 +25,27 @@ fetch("http://localhost:3000/api/products")
 ;
 
 for (let product of listofproducts) {
-    createElement("a");
-    document.getElementById('items').appendChild("a");
-    document.querySelector("#items a").setAttribute("href", "./product.html?id=" + IDofproduct);
-    createElement("article");
-    document.querySelector("#items a").appendChild("article");
-    createElement("img");
-    createElement("h3");
-    createElement("p");
-    document.querySelector("#items a article").appendChild("img");
-    document.querySelector("#items a article").appendChild("h3");
-    document.querySelector("#items a article").appendChild("p");
-    document.querySelector("#items a article img").innerHTML = imageofproduct;
-    document.querySelector("#items a article img").setAttribute("alt", AlternativeTextofproduct);
-    document.querySelector("#items a article h3").innerHTML = nameofproduct;
-    document.querySelector("#items a article p").innerHTML = descriptionofproduct;
+    let link = document.createElement("a");
+    document.getElementById('items').appendChild(link);
+    link.setAttribute("href", "./product.html?id=" + IDofproduct);
+
+    let article = document.createElement("article");
+    link.appendChild(article);
+
+    let image = document.createElement("img");
+    article.appendChild(image);
+    image.innerHTML = imageofproduct;
+    image.setAttribute("alt", AlternativeTextofproduct);
+
+    let subtitle3 = document.createElement("h3");
+    article.appendChild(subtitle3);
+    subtitle3.innerHTML = nameofproduct;
+    subtitle3.classList.add("productName");
+
+    let normalText = document.createElement("p");
+    article.appendChild(normalText);
+    normalText.innerHTML = descriptionofproduct;
+    normalText.classList.add("productDescription");   
 }
 
 //value.description ou product.description
