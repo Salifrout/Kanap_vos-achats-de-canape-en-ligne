@@ -49,7 +49,7 @@ function Accueildynamique() {
             //let descriptionofproduct = value.description;
             //let IDofproduct = value._id;
             //dans la fonction, mettre les values directement, sans passer par les variables car celles ci seront écrasées à chaque fois
-        })
+        )
         .catch(function(error) {
             //prévenir en cas d'erreur
             console.log("Une erreur empêche le résultat de s'afficher.")

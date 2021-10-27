@@ -51,7 +51,7 @@ function Afficherleproduit() {
         //let IDofproduct = value._id;
         //let colorsofproduct = value.colors;
         //let priceofproduct = value.price;
-    })
+    }
     .catch(function(error) {
         //prévenir en cas d'erreur
         console.log("Une erreur empêche le résultat de s'afficher.")
@@ -101,10 +101,14 @@ for (product of listofproducts) {
 //changer méthode, mis à jour aray en localStorage, puis remove array de localstorage, et add array mis à jour !
 
 class Product {
-    constructor(id, number, coloration) {
+    constructor(id, number, coloration, image, alternative, name, price) {
         this.id = id;
         this.number = number;
         this.coloration = coloration;
+        this.image = image;
+        this.alternative = alternative;
+        this.name = name;
+        this.price = price;
     }
 }
 
@@ -116,8 +120,9 @@ function ChoisirleNouveauProduit() {
       if product_ID == value._id {
           let quantite = document.getElementById("quantity").value;
           let couleur = document.getElementById("colors").value;
+
   
-          let Produit = new Product(value._id, quantite, couleur);
+          let Produit = new Product(value._id, quantite, couleur, value.imageUrl, value.altTxt, value.name, value.price);
         } else {   
         } 
     }
