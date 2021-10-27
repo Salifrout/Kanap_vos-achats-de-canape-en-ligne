@@ -1,8 +1,6 @@
 //créer une foncion pour récupérer les informations du produit situés dans le stockage local
-function recevoirleproduit() {
-    localStorage.getItem("Id");
-    localStorage.getItem("Quantity");
-    localStorage.getItem("Color");
+function Recevoirleproduit() {
+    localStorage.getItem("Produits");
 }
 
 //appeler la fonction pour l'exécuter
