@@ -9,7 +9,7 @@ recevoirleproduit();
 //situer les éléments dans le DOM
 
 function montrerProduit() {
-    for (Produits of EnsembleduPanier) {
+    for (Produit of EnsembleduPanier) {
         let article = document.createElement("article");
         article.classList.add("cart__item");
         article.setAttribute("data-ID", id);
@@ -58,6 +58,90 @@ function montrerProduit() {
         phrase2.innerHTML = "Supprimer";
     }
 }
+
+montrerProduit();
+
+
+
+
+
+function Changevaleur() {
+    let input = document.getElementsByName("itemQuantity");
+    input.value = this.value;
+} 
+
+function ChangeClass() {
+    let input = document.getElementsByName("itemQuantity");
+    Produit.quantite = input.value;
+}
+
+function ChangeTableau() {
+    let QteKanap = EnsembleduPanier.indexOf(Produit);
+    EnsembleduPanier.splice(QteKanap, 1, Produit);
+}
+
+function ViderleLocal() {
+    localstorage.removeItem('Produits');
+}
+
+function AjouterEnsembleauPanier() {
+    localstorage.setItem('Produits', EnsembleduPanier);
+}
+
+function ChangeQte() {
+    Changevaleur;
+    ChangeClass;
+    ChangeTableau;
+    ViderleLocal;
+    AjouterEnsembleauPanier;
+}
+
+for (Produit of EnsembleduPanier) {
+    let input = document.getElementsByName("itemQuantity");
+    input.addEventListener('change', ChangeQte);
+}
+
+//===========================
+
+function SortirduDOM() {
+    let phrase2 = document.getElementsByClassName("deleteItem");
+    let article = phrase2.closest("article");
+    article.style.display = "none";
+}
+
+function SortirduTableau() {
+    let SupprKanap = EnsembleduPanier.indexOf(Produit);
+    EnsembleduPanier.splice(SupprKanap);
+}
+
+function ViderleLocal() {
+    localstorage.removeItem('Produits');
+}
+
+function AjouterEnsembleauPanier() {
+    localstorage.setItem('Produits', EnsembleduPanier);
+}
+
+function SupprQte() {
+    SortirduDOM();
+    SortirduTableau();
+    ViderleLocal();
+    AjouterEnsembleauPanier();
+}
+
+for (Produit of EnsembleduPanier) {
+    let phrase2 = document.getElementsByClassName("deleteItem");
+    phrase2.addEventListener('click', SupprQte);
+}
+
+
+//rajouter  TOTAL du prix de tous les produits
+
+récupérer les données des utilisateurs
+vérifier les données des utilisateurs
+envoyer un message d'erreur si...
+
+
 
 
 

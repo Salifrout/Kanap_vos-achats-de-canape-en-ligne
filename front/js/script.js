@@ -14,8 +14,9 @@ function Accueildynamique() {
             if (response.ok) {
                 //vérifier si la réponse est ok, si oui la traduire en json puis la convertir en array
                 //pour l'utiliser dans la boucle for qui suivra
-                JSON.parse(response);
-                let listofproducts = response.js();
+                //JSON.parse(response);
+                //let listofproducts = response.js();
+                let listofproducts = response();
                 //peut-être parsé en js
             }
         })
@@ -59,7 +60,7 @@ function Accueildynamique() {
 }
 
 for (product of listofproducts) {
-    Accueildynamique;
+    Accueildynamique();
 };
 
 //utiliser une boucle pour que chaque produit soit présent sur la page d'accueil : créer un élement,
