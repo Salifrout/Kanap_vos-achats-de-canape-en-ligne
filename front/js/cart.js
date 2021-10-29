@@ -7,7 +7,6 @@ function Recevoirleproduit() {
 recevoirleproduit();
 
 //situer les éléments dans le DOM
-
 function montrerProduit() {
     for (Produit of EnsembleduPanier) {
         let article = document.createElement("article");
@@ -59,22 +58,24 @@ function montrerProduit() {
     }
 }
 
+//appeler la fonction pour mettre dans le DOM
 montrerProduit();
 
+//==============================
 
-
-
-
+//changer la valeur de la quantité dans le DOM et l'enregistrer
 function Changevaleur() {
     let input = document.getElementsByName("itemQuantity");
     input.value = this.value;
 } 
 
+//modifier la valeur dans la classe
 function ChangeClass() {
     let input = document.getElementsByName("itemQuantity");
     Produit.quantite = input.value;
 }
 
+//dans le tableau
 function ChangeTableau() {
     let QteKanap = EnsembleduPanier.indexOf(Produit);
     EnsembleduPanier.splice(QteKanap, 1, Produit);
@@ -103,12 +104,14 @@ for (Produit of EnsembleduPanier) {
 
 //===========================
 
+//faire disparaitre du DOM avec display: none
 function SortirduDOM() {
     let phrase2 = document.getElementsByClassName("deleteItem");
     let article = phrase2.closest("article");
     article.style.display = "none";
 }
 
+//sortir le produit du tableau
 function SortirduTableau() {
     let SupprKanap = EnsembleduPanier.indexOf(Produit);
     EnsembleduPanier.splice(SupprKanap);
@@ -137,9 +140,9 @@ for (Produit of EnsembleduPanier) {
 
 //rajouter  TOTAL du prix de tous les produits
 
-récupérer les données des utilisateurs
-vérifier les données des utilisateurs
-envoyer un message d'erreur si...
+//récupérer les données des utilisateurs
+//vérifier les données des utilisateurs
+//envoyer un message d'erreur si...
 
 
 
