@@ -10,7 +10,7 @@
             }
         })
         .then(function(value) {
-            for (product of response.json()) {
+            for (value of response.json()) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
             link.setAttribute("href", "./product.html?id=" + value._id);
