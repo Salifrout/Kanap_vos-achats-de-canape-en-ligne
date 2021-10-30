@@ -29,6 +29,7 @@ function Afficherleproduit() {
             document.getElementById("colors").appendChild(colorInOption);
             colorInOption.setAttribute("option", color);
             colorInOption.innerHTML = color;
+        }
     })
     .catch(function(error) {
         //prévenir en cas d'erreur
@@ -47,7 +48,9 @@ for (product of listofproducts) {
     } else {    
     }
 }
-
+//mettre boucle for directement dans fonction de requete API
+//tout ce qui concerne la fonction doit etre à l'intérieur et pas à l'extérieur
+//mettre parametre dans fonction. ex: produit, pour afficherleproduit. Créer fonction(produit) et donne pourinstruction de mettre élément du produit dans le DOM
 
 //créer une classe pour mettre des informations sur chaque produit
 class Product {

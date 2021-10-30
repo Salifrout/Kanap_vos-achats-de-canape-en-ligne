@@ -1,18 +1,21 @@
 //requêter l'API
-function Accueildynamique() {
+//function Accueildynamique() {
     fetch("http://localhost:3000/api/products")
         .then(function(response) {
             if (response.ok) {
                 //let listofproducts = response.js();
-                let listofproducts = response();
+                //let listofproducts = response();
                 //peut-être parsé en js
+                return response.json();
             }
         })
         .then(function(value) {
+            for (product of response.json()) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
             link.setAttribute("href", "./product.html?id=" + value._id);
-    
+            
+            //sélectionner créer mettre enfant
             let article = document.createElement("article");
             link.appendChild(article);
     
@@ -30,17 +33,18 @@ function Accueildynamique() {
             article.appendChild(normalText);
             normalText.innerHTML = value.description;
             normalText.classList.add("productDescription");   
+            }
         })
         .catch(function(error) {
             console.log("Une erreur empêche le résultat de s'afficher.")
         })
     
     ;
-}
+//}
 
 //appeler la fonction pour chaque produit afin de construire le DOM
-for (product of listofproducts) {
-    Accueildynamique();
-};
+//for (product of listofproducts) {
+//    Accueildynamique();
+//};
 
 //ne marche pas. PK ?
