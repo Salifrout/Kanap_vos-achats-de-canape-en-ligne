@@ -1,7 +1,7 @@
 //requêter l'API
 //function Accueildynamique() {
-    //essayer en faisant let url = url de local host puis mettre url dans fetch
-    fetch("api/products")
+    let gourl = "/api/products";
+    fetch(gourl)
         .then(function(response) {
             if (response.ok) {
                 //let listofproducts = response.js();
