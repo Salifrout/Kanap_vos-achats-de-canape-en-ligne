@@ -1,13 +1,11 @@
 //requêter l'API
 //function Accueildynamique() {
-    fetch("http://localhost:3000/models/Product.js/products")
+    fetch("http://localhost:3000/api/products")
         .then(function(response) {
-            if (response.ok) {
                 //let listofproducts = response.js();
                 //let listofproducts = response();
                 //peut-être parsé en js
-                return response.json();
-            }
+                console.info(response);
         })
         .then(function(value) {
             for (value of response.json()) {
@@ -36,7 +34,7 @@
             }
         })
         .catch(function(error) {
-            console.log("Une erreur empêche le résultat de s'afficher.")
+            console.error(error)
         })
     
     ;
