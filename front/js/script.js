@@ -1,7 +1,6 @@
 //requêter l'API
 //function Accueildynamique() {
-    let gourl = "/api/products";
-    fetch(gourl)
+    fetch("http://localhost:3000/models/Product.js/products")
         .then(function(response) {
             if (response.ok) {
                 //let listofproducts = response.js();
@@ -49,3 +48,6 @@
 //};
 
 //ne marche pas. PK ?
+
+
+
