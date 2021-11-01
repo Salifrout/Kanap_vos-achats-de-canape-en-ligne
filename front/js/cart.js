@@ -140,6 +140,15 @@ for (Produit of EnsembleduPanier) {
 
 //rajouter  TOTAL du prix de tous les produits
 
+récupérer prix de chaque élément
+récupérer quantité de chaque élément
+prix*quantité
+boucle, i=0 puis let X=nombre d'éléments, jusqu'à i<=X {sum+=(prix*quantité); i++} TESTER dans JSBIN 
+
+
+
+
+
 //récupérer les données des utilisateurs
 //vérifier les données des utilisateurs
 //envoyer un message d'erreur si...
