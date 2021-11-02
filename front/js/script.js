@@ -1,18 +1,13 @@
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
-        //let listofproducts = response.js();
-        //let listofproducts = response();
-        //peut-être parsé en js
-        let listofproducts = res.json();
-        console.info(res);
+        let products = res.json();
     })
     .then(function(value) {
-        for (value of listofproducts) {
+        for (product of products) {
         let link = document.createElement("a");
         document.getElementById('items').appendChild(link);
         link.setAttribute("href", "./product.html?id=" + value._id);
             
-        //sélectionner créer mettre enfant
         let article = document.createElement("article");
         link.appendChild(article);
     
@@ -33,18 +28,10 @@ fetch("http://localhost:3000/api/products")
         }
     })
     .catch(function(err) {
-        console.error(error)
+        console.log("Une erreur empêche le résultat de s'afficher");
     })
 ;
+
     
-
-
-//appeler la fonction pour chaque produit afin de construire le DOM
-//for (product of listofproducts) {
-//    Accueildynamique();
-//};
-
-//ne marche pas. PK ?
-
-
-
+//getProducts(products);
+//réponse du fetch, lui donner un nom
