@@ -1,6 +1,4 @@
-let products = [];
 
-function getProducts() {
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
         let products = res.json();
@@ -28,12 +26,10 @@ fetch("http://localhost:3000/api/products")
         article.appendChild(normalText);
         normalText.innerHTML = value.description;
         normalText.classList.add("productDescription");
-        }   
+        }
     })
     .catch(function(err) {
         console.log("Une erreur empêche le résultat de s'afficher");
     })
 
 ;}
-    
-getProducts;
