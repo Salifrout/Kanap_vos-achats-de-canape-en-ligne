@@ -32,5 +32,5 @@ fetch("http://localhost:3000/api/products")
     .catch(function(err) {
         console.log("Une erreur empêche le résultat de s'afficher");
     })
+;
 
-;}
