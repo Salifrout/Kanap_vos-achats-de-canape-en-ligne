@@ -5,27 +5,27 @@ fetch("http://localhost:3000/api/products")
         console.info(res);
     })
     .then(function(value) {
-        for (value of products) {
+        for (product of products) {
         let link = document.createElement("a");
         document.getElementById('items').appendChild(link);
-        link.setAttribute("href", "./product.html?id=" + value._id);
+        link.setAttribute("href", "./product.html?id=" + product.value._id);
             
         let article = document.createElement("article");
         link.appendChild(article);
     
         let image = document.createElement("img");
         article.appendChild(image);
-        image.setAttribute("src", value.imageUrl);
-        image.setAttribute("alt", value.altTxt + ", " + value.name);
+        image.setAttribute("src", product.value.imageUrl);
+        image.setAttribute("alt", product.value.altTxt + ", " + product.value.name);
     
         let subtitle3 = document.createElement("h3");
         article.appendChild(subtitle3);
-        subtitle3.innerHTML = value.name;
+        subtitle3.innerHTML = product.value.name;
         subtitle3.classList.add("productName");
     
         let normalText = document.createElement("p");
         article.appendChild(normalText);
-        normalText.innerHTML = value.description;
+        normalText.innerHTML = product.description;
         normalText.classList.add("productDescription");
         }
     })
