@@ -1,12 +1,13 @@
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
-            //let listofproducts = response.js();
-            //let listofproducts = response();
-            //peut-être parsé en js
-            console.info(res);
+        //let listofproducts = response.js();
+        //let listofproducts = response();
+        //peut-être parsé en js
+        let listofproducts = res.json();
+        console.info(res);
     })
     .then(function(value) {
-        for (value of response.json()) {
+        for (value of listofproducts) {
         let link = document.createElement("a");
         document.getElementById('items').appendChild(link);
         link.setAttribute("href", "./product.html?id=" + value._id);
