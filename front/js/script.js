@@ -2,9 +2,9 @@
 fetch("http://localhost:3000/api/products")
     .then(function(res) {
         let products = res.json();
+        console.info(res);
     })
     .then(function(value) {
-        for (product of products) {
         let link = document.createElement("a");
         document.getElementById('items').appendChild(link);
         link.setAttribute("href", "./product.html?id=" + value._id);
@@ -26,7 +26,6 @@ fetch("http://localhost:3000/api/products")
         article.appendChild(normalText);
         normalText.innerHTML = value.description;
         normalText.classList.add("productDescription");
-        }
     })
     .catch(function(err) {
         console.log("Une erreur empêche le résultat de s'afficher");
