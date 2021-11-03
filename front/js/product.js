@@ -6,10 +6,10 @@ let url = new URL(URLofpage);
 let product_ID = url.searchParams.get("id");
 
 //requêter l'API
-function Afficherleproduit() {
+//function Afficherleproduit() {
     fetch("http://localhost:3000/api/products")
     .then(function(res) {
-        if (response.ok) {
+        if (res.ok) {
             return res.json();
         }
     })
@@ -19,7 +19,7 @@ function Afficherleproduit() {
         let URLofpage = window.location.href;
         let url = new URL(URLofpage);
 
-        if url.searchParams.get("id") = val._id {
+        if (url.searchParams.get("id") == val._id) {
         let product_img = document.createElement("img");
         document.getElementsByClassName('item__img').appendChild(product_img);
         product_img.setAttribute("alt", val.altTxt + ", " + val.name);
@@ -44,7 +44,7 @@ function Afficherleproduit() {
         //prévenir en cas d'erreur
         console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
     });
-}
+//}
 
 //créer une boucle pour vérifier si pour chaque produit, la valeur du paramètre ID dans L'URL est égale à celle de l'ID
 //du produit situé dans l'API. Si la réponse est oui: créer les éléments d'informations du produit, expliquer où ils
@@ -98,7 +98,7 @@ function Ajouterleproduit() {
     if EnsembleduPanier.length == 0 {
         EnsembleduPanier.push(Produit);
     }
-    if else {
+    else if {
         for (Elements of EnsembleduPanier) {
         Produit == Elements
     }}
