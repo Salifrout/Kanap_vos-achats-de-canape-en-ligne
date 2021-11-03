@@ -21,24 +21,24 @@ requestState
         for (val of value) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
-            link.setAttribute("href", "./product.html?id=" + value._id);
+            link.setAttribute("href", "./product.html?id=" +  val._id);
  
             let article = document.createElement("article");
             link.appendChild(article);
  
             let image = document.createElement("img");
             article.appendChild(image);
-            image.setAttribute("src", value.imageUrl);
-            image.setAttribute("alt", value.altTxt + ", " + value.name);
+            image.setAttribute("src",  val.imageUrl);
+            image.setAttribute("alt",  val.altTxt + ", " +  val.name);
  
             let subtitle3 = document.createElement("h3");
             article.appendChild(subtitle3);
-            subtitle3.innerHTML = value.name;
+            subtitle3.innerHTML =  val.name;
             subtitle3.classList.add("productName");
  
             let normalText = document.createElement("p");
             article.appendChild(normalText);
-            normalText.innerHTML = value.description;
+            normalText.innerHTML =  val.description;
             normalText.classList.add("productDescription");
         }
     })
