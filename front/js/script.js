@@ -11,34 +11,34 @@ requestState
         // retourne une nouvelle promise
         return listofproducts;
     })
-    .then(function(product) {
+    .then(function(value) {
         // ici value correspond au données JSON renvoyé par le serveur
      
         // ici product n'existe pas elle n'est pas définit dans ce scope
         // value correspond à products
         // for(val of value) {...}
         
-        for (product of listofproducts) {
+        for (val of value) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
-            link.setAttribute("href", "./product.html?id=" + product._id);
+            link.setAttribute("href", "./product.html?id=" + value._id);
  
             let article = document.createElement("article");
             link.appendChild(article);
  
             let image = document.createElement("img");
             article.appendChild(image);
-            image.setAttribute("src", product.imageUrl);
-            image.setAttribute("alt", product.altTxt + ", " + product.name);
+            image.setAttribute("src", value.imageUrl);
+            image.setAttribute("alt", value.altTxt + ", " + value.name);
  
             let subtitle3 = document.createElement("h3");
             article.appendChild(subtitle3);
-            subtitle3.innerHTML = product.name;
+            subtitle3.innerHTML = value.name;
             subtitle3.classList.add("productName");
  
             let normalText = document.createElement("p");
             article.appendChild(normalText);
-            normalText.innerHTML = product.description;
+            normalText.innerHTML = value.description;
             normalText.classList.add("productDescription");
         }
     })
