@@ -45,4 +45,11 @@ requestState
     .catch(function(err) {
         // ici la requête à planté
         console.log("Une erreur empêche le résultat de s'afficher");
-    });
+    })
+;
+
+function black(yell) {
+    console.log(yell);
+}
+
+black(requestState.value[0].name);
