@@ -8,32 +8,41 @@ let product_ID = url.searchParams.get("id");
 //requêter l'API
 function Afficherleproduit() {
     fetch("http://localhost:3000/api/products")
-    .then(function(response) {
+    .then(function(res) {
         if (response.ok) {
-            let listofproducts = JSON.parse(response);
+            return res.json();
         }
     })
     .then(function(value) {
+
+        for (val of value) {
+        let URLofpage = window.location.href;
+        let url = new URL(URLofpage);
+
+        if url.searchParams.get("id") = val._id {
         let product_img = document.createElement("img");
         document.getElementsByClassName('item__img').appendChild(product_img);
-        product_img.setAttribute("alt", value.altTxt + ", " + value.name);
-        product_img.innerHTML = value.imageUrl;
+        product_img.setAttribute("alt", val.altTxt + ", " + val.name);
+        product_img.innerHTML = val.imageUrl;
 
-        document.getElementById("title").innerHTML = value.name;
-        document.getElementById("price").innerHTML = value.price;
-        document.getElementById("description").innerHTML = value.description;
+        document.getElementById("title").innerHTML = val.name;
+        document.getElementById("price").innerHTML = val.price;
+        document.getElementById("description").innerHTML = val.description;
 
-        let colorsofproduct = value.colors;
+        let colorsofproduct = val.colors;
         for (color of colorsofproduct) {
             let colorInOption = document.createElement("option");
             document.getElementById("colors").appendChild(colorInOption);
             colorInOption.setAttribute("option", color);
             colorInOption.innerHTML = color;
         }
+        
+        } else {}
+    }
     })
     .catch(function(error) {
         //prévenir en cas d'erreur
-        console.log("Une erreur empêche le résultat de s'afficher.")
+        console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
     });
 }
 
@@ -41,13 +50,13 @@ function Afficherleproduit() {
 //du produit situé dans l'API. Si la réponse est oui: créer les éléments d'informations du produit, expliquer où ils
 //doivent se trouver dans le DOM et ce qu'ils doivent contenir. Si la réponse est non: ne rien faire.
 
-for (product of listofproducts) {
-    let product_ID = url.searchParams.get("id");
-    if product_ID == value._id {
-        Afficherleproduit;
-    } else {    
-    }
-}
+//for (product of listofproducts) {
+//    let product_ID = url.searchParams.get("id");
+//    if product_ID == value._id {
+//        Afficherleproduit;
+//    } else {    
+//    }
+//}
 //mettre boucle for directement dans fonction de requete API
 //tout ce qui concerne la fonction doit etre à l'intérieur et pas à l'extérieur
 //mettre parametre dans fonction. ex: produit, pour afficherleproduit. Créer fonction(produit) et donne pourinstruction de mettre élément du produit dans le DOM

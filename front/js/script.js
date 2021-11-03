@@ -5,11 +5,11 @@ requestState
         // ici si tu veut ré attaché une methode .then en dessous
         // tu doit retourné une nouvelle Promise
  
-        let listofproducts = res.json(); // res.json() renvoi une Promise et ne donne pas directement les résultat
+         // res.json() renvoi une Promise et ne donne pas directement les résultat
         console.info(res); // <- [Object <"pending">]
          
         // retourne une nouvelle promise
-        return listofproducts;
+        return res.json();
     })
     .then(function(value) {
         // ici value correspond au données JSON renvoyé par le serveur
