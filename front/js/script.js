@@ -17,7 +17,7 @@ requestState
         // ici product n'existe pas elle n'est pas définit dans ce scope
         // value correspond à products
         // for(val of value) {...}
-        let listofproducts = res.json();
+        
         for (product of listofproducts) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
