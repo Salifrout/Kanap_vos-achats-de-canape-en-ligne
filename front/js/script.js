@@ -11,13 +11,13 @@ requestState
         // retourne une nouvelle promise
         return listofproducts;
     })
-    .then(function(listofproducts) {
+    .then(function(product) {
         // ici value correspond au données JSON renvoyé par le serveur
      
         // ici product n'existe pas elle n'est pas définit dans ce scope
         // value correspond à products
         // for(val of value) {...}
-        let listofproducts = res.json(); 
+        let listofproducts = res.json();
         for (product of listofproducts) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
