@@ -14,7 +14,7 @@ requestState
         return res.json();
     })
     .then(function(value) {
-        for (val of value) {
+        // for (val of value) {
             if (product_ID === val._id) {
         
                 let product_img = document.createElement("img");
@@ -35,7 +35,7 @@ requestState
                 }
             } else {    
             }
-        }
+        //}
     })
     .catch(function(err) {
         //prévenir en cas d'erreur
