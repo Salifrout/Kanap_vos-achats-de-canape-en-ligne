@@ -39,7 +39,7 @@ requestState
     })
     .catch(function(err) {
         //prévenir en cas d'erreur
-        console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
+        console.log("Une nouvelles erreur empêche le résultat de s'afficher.")
     })
 ;
 
