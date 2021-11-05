@@ -7,16 +7,15 @@ let product_ID = url.searchParams.get("id");
 
 const requestState = fetch("http://localhost:3000/api/products");
 
-
+//requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
 requestState
     .then(function(res) {
-        if (res.ok) {
-            return res.json();
-        }
+        console.info(res);
+        return res.json();
     })
     .then(function(value) {
         for (val of value) {
-            if (product_ID == val._id) {
+            if (product_ID === val._id) {
         
                 let product_img = document.createElement("img");
                 document.getElementsByClassName('item__img').appendChild(product_img);
@@ -28,7 +27,7 @@ requestState
                 document.getElementById("description").innerHTML = val.description;
 
                 let colorsofproduct = val.colors;
-                for (color of colorsofproduct) {
+                for (let color of colorsofproduct) {
                     let colorInOption = document.createElement("option");
                     document.getElementById("colors").appendChild(colorInOption);
                     colorInOption.setAttribute("option", color);
@@ -43,22 +42,6 @@ requestState
         console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
     })
 ;
-
-
-//créer une boucle pour vérifier si pour chaque produit, la valeur du paramètre ID dans L'URL est égale à celle de l'ID
-//du produit situé dans l'API. Si la réponse est oui: créer les éléments d'informations du produit, expliquer où ils
-//doivent se trouver dans le DOM et ce qu'ils doivent contenir. Si la réponse est non: ne rien faire.
-
-//for (product of listofproducts) {
-//    let product_ID = url.searchParams.get("id");
-//    if product_ID == value._id {
-//        Afficherleproduit;
-//    } else {    
-//    }
-//}
-//mettre boucle for directement dans fonction de requete API
-//tout ce qui concerne la fonction doit etre à l'intérieur et pas à l'extérieur
-//mettre parametre dans fonction. ex: produit, pour afficherleproduit. Créer fonction(produit) et donne pourinstruction de mettre élément du produit dans le DOM
 
 //créer une classe pour mettre des informations sur chaque produit
 class Product {
@@ -75,12 +58,10 @@ class Product {
 
 let OneProduct = {};
 
-//fonction pour créer nouvelle classe
-//fonction : créer une nouvelle classe (entre parenthèses, élément à donner de la classe)
-//appeler la fonction : entre parenthèses, éléments de la classe déterminée. for (... of ...) + if (product id ==...), appeler fonction
+//les fonctions suivantes permettent de créer une nouvelle classe, mettre dans un tableau, vider le localstorage avant d'y remettre le tableau mis à jour
 
-for (let val of requestState.value) {
-    if (product_ID == val._id) {
+for (let val of requestState.res) {
+    if (product_ID === val._id) {
         let quantite = document.getElementById("quantity").value;
         let couleur = document.getElementById("colors").value;
 
@@ -94,12 +75,12 @@ let Cart = [];
 
 //fonction pour augmenter quantité d'un produit choisi
 function UpdateCart(newproduct) {
-    if (Cart.length == 0) {
+    if (Cart.length === 0) {
         Cart.push(newproduct);
         console.log("Le panier est vide, un nouveau produit est ajouté.");
     } else {
         for (let CartParts of Cart) {
-            if (CartParts == newproduct) {
+            if (CartParts === newproduct) {
                 CartParts.number += newproduct.number;
                 console.log("On augmente la quantité pour un produit.");
             } else { 
@@ -129,5 +110,5 @@ function AddNewProductInStorage() {
 }
 
 
-//ajouter dnas le panier lors du click sur le bouton
+//ajouter dans le panier lors du click sur le bouton
 document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
