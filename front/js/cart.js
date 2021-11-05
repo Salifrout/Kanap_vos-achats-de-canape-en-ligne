@@ -103,6 +103,8 @@ function UpdateCartAfterOneChange() {
     PutInStorage;
 }
 
+//envisager de rassembler les codes de fonction courte dnas cette autre fonction
+
 //mettre à jour la quantité de produit choisi par l(utilisateur)
 for (let CartParts of Cart) {
     let Input = document.getElementsByName("itemQuantity");
@@ -126,11 +128,13 @@ function Cartout(UselessProduct) {
 
 //une fonction pour récapituler les précédentes
 function SupprQte() {
-   DOMout;
+    DOMout;
     Cartout(CartParts);
     CleanStorage;
     PutInStorage;
 }
+
+//fonctino updatestorage de cleanstorage et putinstorage
 
 //éliminer un produit si l'utilisateur le supprime
 for (let CartParts of Cart) {
@@ -150,7 +154,9 @@ for (let CartParts of Cart) {
     totalForarticles += CartParts.number*CartParts.price;
 }
 
-let totalpriceOfarticles = totalForarticles/100;
+
+//opérateur binaire mettre un epsace, les opérateurs unaires ne peut pas mettre espace
+let totalpriceOfarticles = totalForarticles / 100;
 
 document.getElementById("totalQuantity").innerHTML = numberOfarticles;
 document.getElementById("totalPrice").innerHTML = totalpriceOfarticles;

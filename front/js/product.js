@@ -5,7 +5,13 @@ let url = new URL(URLofpage);
 //créer une variable pour définir la valeur du paramètre id situé dans l'URL
 let product_ID = url.searchParams.get("id");
 
-const requestState = fetch("http://localhost:3000/api/products");
+//vérifier que c'est un nombre et que ca existe et donner un réponse dans le code car sinon null, yaura considéré rien et erenvoi tout ou bien code plante
+//ou bien redirige vers la page d'accueil
+const requestState = fetch("http://localhost:3000/api/products/" + product_ID);
+
+//parse in pour vérifier que ce soit un entier,  /product_id et réupère un seul objet produitt
+
+//envisager qu'il n'y ai pas de ID dans l'URL de la page et écrire une phrase pour dire à l'utilisateur qu'il faut remplir son panier
 
 //requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
 requestState
@@ -14,7 +20,7 @@ requestState
         return res.json();
     })
     .then(function(value) {
-        // for (val of value) {
+        //for (val of value) {
             if (product_ID === val._id) {
         
                 let product_img = document.createElement("img");
@@ -60,7 +66,9 @@ let OneProduct = {};
 
 //les fonctions suivantes permettent de créer une nouvelle classe, mettre dans un tableau, vider le localstorage avant d'y remettre le tableau mis à jour
 
-for (let val of requestState.res) {
+
+//créer une fonction ici
+function CreateProductForCart() {
     if (product_ID === val._id) {
         let quantite = document.getElementById("quantity").value;
         let couleur = document.getElementById("colors").value;
@@ -92,23 +100,18 @@ function UpdateCart(newproduct) {
 }
     
 //vider le local puis remettre le tableau mis à jour
-function CleanStorage() {
+function UpdateStorage() {
     localstorage.removeItem('Allproducts');
-    console.log("Le Storage se vide.")
-}
-
-function PutInStorage() {
     localstorage.setItem('Allproducts', Cart);
-    console.log("Le panier entre dans le Storage.")
+    console.log("Le Storage s'est mis à jour.");
 }
 
 function AddNewProductInStorage() {
+    //
     UpdateCart(OneProduct);
-    CleanStorage;
-    PutInStorage;
+    UpdateStorage;
     console.log("Le panier est mis à jour.")
 }
-
 
 //ajouter dans le panier lors du click sur le bouton
 document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
