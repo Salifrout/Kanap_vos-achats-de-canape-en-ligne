@@ -143,12 +143,14 @@ for (let CartParts of Cart) {
 //===================================
 
 let numberOfarticles = 0;
-let totalpriceOfarticles = 0;
+let totalForarticles = 0;
 
 for (let CartParts of Cart) {
     numberofarticles += CartParts.number;
-    totalpriceOfarticles += CartParts.number* CartParts.price;
+    totalForarticles += CartParts.number*CartParts.price;
 }
+
+let totalpriceOfarticles = totalForarticles/100;
 
 document.getElementById("totalQuantity").innerHTML = numberOfarticles;
 document.getElementById("totalPrice").innerHTML = totalpriceOfarticles;
