@@ -178,11 +178,12 @@ function ValidateFormforString(elementinDOM, form, Sentenceforwarning) {
     }
 }
 
+//appeler ces fonctions lors d'un évènement OnInput de leur champ de formulaire
 ValidateFormforString("firstName", "firstNameErrorMsg", "prénom");
 ValidateFormforString("lastName", "lastNameErrorMsg", "nom de famille");
 ValidateFormforString("city", "cityErrorMsg", "ville");
 
-
+//faire la même chose avec adresse et email
 
 
 

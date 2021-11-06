@@ -5,6 +5,11 @@ let url = new URL(URLofpage);
 //créer une variable pour définir la valeur du paramètre id situé dans l'URL
 let product_ID = url.searchParams.get("id");
 
+//if url.searchParams.get("id") = false/null(vérifier qu'un élément existe sur internet vec javascript), createElement and innerHTML = Votre panier est vide, vous pouvez le remplir depuis la page principale.
+//if url.searchParams.get("id") = "" (chaine string)/if !== REGEX OU pas id de API, alors createElement and innerHTML = Votre panier est vide, vous pouvez le remplir depuis la page principale.
+//metre cela avant DOM dans thenfucntionvalue, et mettre DOM dans ELSE
+
+
 //vérifier que c'est un nombre et que ca existe et donner un réponse dans le code car sinon null, yaura considéré rien et erenvoi tout ou bien code plante
 //ou bien redirige vers la page d'accueil
 const requestState = fetch("http://localhost:3000/api/products/" + product_ID);
@@ -21,6 +26,9 @@ requestState
     })
     .then(function(value) {
         //for (val of value) {
+
+            //ICI, si null ou undefined ou machin : mettre avertissement dans le DOM qu'il va 
+            //être redirigé vers la page principale dans 5 secondes puis setime out (document.location.href), 5000 !
             if (product_ID === val._id) {
         
                 let product_img = document.createElement("img");
@@ -67,7 +75,7 @@ let OneProduct = {};
 //les fonctions suivantes permettent de créer une nouvelle classe, mettre dans un tableau, vider le localstorage avant d'y remettre le tableau mis à jour
 
 
-//créer une fonction ici
+
 function CreateProductForCart() {
     if (product_ID === val._id) {
         let quantite = document.getElementById("quantity").value;
@@ -107,7 +115,7 @@ function UpdateStorage() {
 }
 
 function AddNewProductInStorage() {
-    //
+    CreateProductForCart;
     UpdateCart(OneProduct);
     UpdateStorage;
     console.log("Le panier est mis à jour.")
