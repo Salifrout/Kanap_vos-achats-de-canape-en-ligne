@@ -247,6 +247,7 @@ class Customer {
 
 let Infos_Customer = {};
 let ArrayofInfosofCustomer = [];
+//classe!
 
 function InfosToRegister() {
     if (ValidateFormforString() || ValidateFormforAdress() || ValidateFormforEmail()) {
@@ -270,7 +271,8 @@ function RegisterforConfirming(e) {
             'Accept': 'application/json', 
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({contact: ArrayofInfosofCustomer}, {products: ArrayofProductsToConfirm})
+        body: JSON.stringify({contact: ArrayofInfosofCustomer, products: ArrayofProductsToConfirm})
+        //json, function(facultatif) si inclut ou pas dans le JSON, objet string/number
     })
     .then(function(res) {
         if (res.ok) {
@@ -285,6 +287,8 @@ function RegisterforConfirming(e) {
         console.log("Une erreur est intervenue lors de la requête dans cart.js");
     });
 }
+//contact doit contenir un objet pas tableau, mais tableau pour les produits
+
 
 function Confirm() {
     ProductsToBuy;
@@ -324,6 +328,6 @@ function ShowCommand(command) {
 ShowCommand(orderID);
 
 
-
+//vider le panier
 
 

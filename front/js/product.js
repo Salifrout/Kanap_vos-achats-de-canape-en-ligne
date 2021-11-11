@@ -21,12 +21,13 @@ OnerequestState
         return res.json();
     })
     .then(function(value) {
-        if (product_ID == null || product_ID == undefined) {
+        //if (product_ID == null || product_ID == undefined) {
      
-            document.getElementsByTagName("article").innerHTML ="Une erreur est survenue. Vous serez redirigé vers la page d'accueil dans 5 secondes."
-            setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 5000);
+          //  document.getElementsByTagName("article").innerHTML ="Une erreur est survenue. Vous serez redirigé vers la page d'accueil dans 5 secondes."
+          //  setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 5000);
         
-        } else if (product_ID !== undefined) {
+        //} else { if  //(product_ID !== undefined) {
+            console.log(value);
         
             let product_img = document.createElement("img");
             document.getElementsByClassName('item__img').appendChild(product_img);
@@ -44,16 +45,13 @@ OnerequestState
                 colorInOption.setAttribute("option", color);
                 colorInOption.innerHTML = color;
             }
-        } else {  
-
-            document.getElementsByTagName("article").innerHTML ="Une erreur est survenue. Vous serez redirigé vers la page d'accueil dans 5 secondes."
-            setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 5000);
-        
-        }
+       // }
     })
     .catch(function(err) {
         //prévenir en cas d'erreur
-        console.log("Une nouvelle. erreur empêche le résultat de s'afficher.")
+        console.info(err);
+        console.alert(err);
+        console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
     })
 ;
 
