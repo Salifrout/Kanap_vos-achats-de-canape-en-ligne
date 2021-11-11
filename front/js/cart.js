@@ -12,14 +12,14 @@ getAllProducts;
 for (let CartParts of Cart) {
     let article = document.createElement("article");
     article.classList.add("cart__item");
-    article.setAttribute("data-ID", id); //CartParts._id ?..
+    article.setAttribute("data-ID", Cartparts.id); //CartParts._id ?..
 
     let DivpourImagedupanier = document.createElement("div");
     DivpourImagedupanier.classList.add("cart__item__img");
     article.appendChild(DivpourImagedupanier);
     let Imagedupanier = document.createElement("img");
-    Imagedupanier.setAttribute("src", image);
-    Imagedupanier.setAttribute("alt", alternative);
+    Imagedupanier.setAttribute("src", CartParts.image);
+    Imagedupanier.setAttribute("alt", CartParts.alternative);
     DivpourImagedupanier.appendChild(Imagedupanier);
 
     let DivpourItem = document.createElement("div");
@@ -29,10 +29,10 @@ for (let CartParts of Cart) {
     DivpourTitlePrice.classList.add("cart__item__content__titlePrice");
     let subtitle2 = document.createElement("h2");
     DivpourTitlePrice.appendChild(subtitle2);
-    subtitle2.innerHTML = name; //Cartparts.name?..
+    subtitle2.innerHTML = CartParts.name; //Cartparts.name?..
     let phrase1 = document.createElement("p");
     DivpourTitlePrice.appendChild("phrase1");
-    phrase1.innerHTML = (price*number) / 100;
+    phrase1.innerHTML = (CartParts.price*CartParts.number) / 100;
 
     let DivpourQtetInp = document.createElement("div");
     DivpourQtetInp.classList.add("cart__item__content__settings");
@@ -49,7 +49,7 @@ for (let CartParts of Cart) {
     Input.setAttribute("name", "itemQuantity");
     Input.setAttribute("min", "1");
     Input.setAttribute("max", "100");
-    Input.setAttribute("value", number);
+    Input.setAttribute("value", CartParts.number);
     let Suppr = document.createElement("div");
     Suppr.classList.add("cart__item__content__settings_delete");
     DivpourQtetInp.appendChild("Suppr");

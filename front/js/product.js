@@ -1,5 +1,5 @@
 //créer un nom de variable pour récupérer l'URL de la page
-let URLofpage = window.location.href;
+let URLofpage = location;
 let url = new URL(URLofpage);
 
 //créer une variable pour définir la valeur du paramètre id situé dans l'URL
