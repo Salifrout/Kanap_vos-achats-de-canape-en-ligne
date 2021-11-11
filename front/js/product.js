@@ -8,7 +8,7 @@ let product_ID = url.searchParams.get("id");
 
 
 
-const OnerequestState = fetch("http://localhost:3000/api/products/" + product_ID);
+const OnerequestState = fetch("http://localhost:3000/api/products/:id" + product_ID);
 
 //parse in pour vérifier que ce soit un entier,  /product_id et réupère un seul objet produitt
 
@@ -53,7 +53,7 @@ OnerequestState
     })
     .catch(function(err) {
         //prévenir en cas d'erreur
-        console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
+        console.log("Une nouvelle. erreur empêche le résultat de s'afficher.")
     })
 ;
 
