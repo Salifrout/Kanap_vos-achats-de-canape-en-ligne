@@ -5,14 +5,6 @@ let url = new URL(URLofpage);
 //créer une variable pour définir la valeur du paramètre id situé dans l'URL
 let product_ID = url.searchParams.get("id");
 
-var value_id = '';
-let value_altTxt = '';
-let value_imageUrl = '';
-let value_price = '';
-let value_name = '';
-let value_description = ''; 
-
-let blob = "http://localhost:3000/api/products/" + product_ID;
 const OnerequestState = fetch("http://localhost:3000/api/products/" + product_ID);
 
 //parse in pour vérifier que ce soit un entier,  /product_id et réupère un seul objet produitt
@@ -20,7 +12,7 @@ const OnerequestState = fetch("http://localhost:3000/api/products/" + product_ID
 //envisager qu'il n'y ai pas de ID dans l'URL de la page et écrire une phrase pour dire à l'utilisateur qu'il faut remplir son panier
 
 //requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
-function GetInfosforOneProduct() {OnerequestState
+OnerequestState
     .then(function(res) {
         console.info(res);
         return res.json();
@@ -29,22 +21,22 @@ function GetInfosforOneProduct() {OnerequestState
         if (!product_ID) {
             
             alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
+            document.body.remove();
             //let phrase_err = document.createElement("p");
             //document.getElementsByTagName("section").replaceChild(document.getElementsByTagName("article"), phrase_err);
             //phrase_err.innerHTML = "Une erreur est survenue. Vous serez redirigé vers la page d'accueil dans 5 secondes.";
-            setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 5000);
-            return false;
-
+            setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 1000);
+            
         } else if (product_ID !== undefined) {
         
             let product_img = document.createElement("img");
             document.querySelector("section.item article div.item__img").appendChild(product_img);
-            product_img.setAttribute("alt", value_altTxt + ", " + value_name);
-            product_img.setAttribute("src", value_imageUrl);
+            product_img.setAttribute("alt", value.altTxt + ", " + value.name);
+            product_img.setAttribute("src", value.imageUrl);
 
-            document.getElementById("title").innerHTML = value_name;
-            document.getElementById("price").innerHTML = value_price / 100;
-            document.getElementById("description").innerHTML = value_description;
+            document.getElementById("title").innerHTML = value.name;
+            document.getElementById("price").innerHTML = value.price / 100;
+            document.getElementById("description").innerHTML = value.description;
 
             document.getElementById("colors").options.length = 0;
 
@@ -54,37 +46,16 @@ function GetInfosforOneProduct() {OnerequestState
                 document.getElementById("colors").appendChild(colorInOption);
                 colorInOption.setAttribute("option", color);
                 colorInOption.innerHTML = color;
-            }
-
-            //info_id = value._id;
-            //info_altTxt = value.altTxt;
-            //info_imageUrl = value.imageUrl;
-            //info_price = value.price;
-            //info_name = value.name;
-
-            let Infos_OneProduct = [value_id, value_imageUrl, info_altTxt, info_name, info_price];
-            return Infos_OneProduct;
-
+            }  
         } else {
             //essayer display none sur l'article ou la section puis set time out renvoyer vers page d'accueil
         }
     })
     .catch(function(err) {
         //prévenir en cas d'erreur
-        console.log("Une nouvelle erreur empêche le résultat de s'afficher.")
-    });
-}
-
-//var value_id = blob.res._id;
-//let value_altTxt = value.altTxt;
-//let value_imageUrl = value.imageUrl;
-//let value_price = blob.res.price;
-//let value_name = value.name;
-//let value_description = value.description;
-
-let Array1 = GetInfosforOneProduct;
-
-console.log("un problème est survenu: " + Array1[0]);
+        console.log(err);
+    })
+;
 
 
 //créer une classe pour mettre des informations sur chaque produit
@@ -100,10 +71,10 @@ class Product {
     }
 }
 
-let OneProduct = {};
+let OneProduct = {}; //peutetre a suprimmer
 
 //les fonctions suivantes permettent de créer une nouvelle classe, mettre dans un tableau, vider le localstorage avant d'y remettre le tableau mis à jour
-function CreateProductForCart() {
+/*function CreateProductForCart() {
     if (document.getElementById("quantity").value == 0 || document.getElementById("quantity").value > 100) {
         alert("La quantité choisie pour votre produit n'est pas possible. Veuillez choisir une quantité différente.");
         return false;
@@ -111,66 +82,102 @@ function CreateProductForCart() {
     let quantite = document.getElementById("quantity").value;
     let couleur = document.getElementById("colors").value;
 
-    let OneProduct = new Product(OnerequestState.then(function(value) {value.id}), quantite, couleur, OnerequestState.then(function(value) {value.imageUrl}), OnerequestState.then(function(value) {value.altTxt}), OnerequestState.then(function(value) {value.name}), OnerequestState.then(function(value) {value.price}));   
+    let OneProduct = new Product(value.id, quantite, couleur, value.imageUrl, value.altTxt, value.name, value.price);   
         
     return true;
     }    
+}*/
+
+async function CreateProductForCart() {
+    const request = await fetch("http://localhost:3000/api/products/" + product_ID);
+    const result = await request.json();
+    const valueForimage = await result.imageUrl;
+    const valueForalternative = await result.altTxt;
+    const valueForname = await result.name;
+    const valueForprice = await result.price;
+    const valueForID = await result._id;
+
+    //if (document.getElementById("quantity").value == 0 || document.getElementById("quantity").value > 100) {
+      //  alert("La quantité choisie pour votre produit n'est pas possible. Veuillez choisir une quantité différente.");
+       // return false;
+    //} else {
+    let quantite = document.getElementById("quantity").value;
+    let couleur = document.getElementById("colors").value;
+
+    let OneProduct = new Product(valueForID, quantite, couleur, valueForimage, valueForalternative, valueForname, valueForprice);   
+        
+    return OneProduct;
+    //}    
 }
 
-let Cart = [];
+let Cart = []; //peutêtre a supprimer...
 
 //fonction pour augmenter quantité d'un produit choisi
-function UpdateCart(newproduct) {
+async function UpdateCart() {
+
+    let OneProduct = await CreateProductForCart();
+
     if (Cart.length === 0) {
-        Cart.push(newproduct);
+        Cart.push(OneProduct);
         console.log("Le panier est vide, un nouveau produit est ajouté.");
     } else {
         for (let CartParts of Cart) {
-            if (CartParts === newproduct) {
-                CartParts.number += newproduct.number;
+            if (CartParts === OneProduct) {
+                CartParts.number += OneProduct.number;
                 console.log("On augmente la quantité pour un produit.");
             } else { 
-                Cart.push(newproduct);
+                Cart.push(OneProduct);
                 console.log("Un produit est ajouté au panier.");  
             }
         }
     }
+
+    return Cart;
+
 }
     
 //vider le local puis remettre le tableau mis à jour
-function UpdateStorage() {
-    localstorage.removeItem('Allproducts');
-    localstorage.setItem('Allproducts', Cart);
+async function UpdateStorage() {
+
+    const Cart = await UpdateCart();
+
+    localStorage.removeItem('Allproducts');
+    localStorage.setItem('Allproducts', JSON.stringify(Cart));
     console.log("Le Storage s'est mis à jour.");
 }
 
-function AddNewProductInStorage() {
+//créer une fonction unique qui permettra d'exécuter toutes les fonctions précédentes à la fois
+async function AddNewProductInStorage() {
     if (product_ID !== undefined) {
-        CreateProductForCart();
+        await CreateProductForCart();
+        
         if (CreateProductForCart()) {
-            console.log("la nouvelle instance peut être créée.");
-            UpdateCart(OneProduct);
-            UpdateStorage;
-            console.log("Le panier est mis à jour."); 
+           // await UpdateCart();
+            await UpdateStorage();
+            console.log(Storage.length);
+            console.log(localStorage.getItem('Allproducts'));
             return true;
         } else {
             return false;
         }
     } else {
+        console.error("le produit n'a pas pu être rajouté au panier");
     }
 }
 
-//ajouter dans le panier lors du click sur le bouton
-document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
+//exécuter la dernière fonction lors du clique de l'utilisateur sur le bouton
+//document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
+AddNewProductInStorage();
+
+
+//soit ca marche directement, soit il faudra rendre la fonction Addnewproductinstorage en aynschrone et l'appeler lors de addEventlistener final !
+//quitte à ce que UpdateCart aie un await sur Oneproduct de CreateProductforCart
+
+
+console.log("bonjour");
 
 
 
-
-
-
-
-
-
-
+//mettre tout ce quiest apres fetch entre comentaire, puis mettre fonction synchrone ou asynchrone les unes par unes endessous, et les appeler, pouvoir voir ce que donne le débouguer comme résultat !
 
 

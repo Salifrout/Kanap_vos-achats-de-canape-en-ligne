@@ -2,17 +2,17 @@
 let Cart = [];
 
 function getAllProducts() {
-    let Cart = localStorage.getItem("Allproducts");
-    console.log("Les produits sont récupérés.")
+    Cart = JSON.parse(localStorage.getItem("Allproducts"));
+    console.log("Les produits sont récupérés.");
 }
 
-getAllProducts;
+getAllProducts();
 
-//faire apparaitre les différents produits dnas le DOM du fichier cart.html
 for (let CartParts of Cart) {
     let article = document.createElement("article");
+    document.getElementById("cart__items").appendChild(article);
     article.classList.add("cart__item");
-    article.setAttribute("data-ID", Cartparts.id); //CartParts._id ?..
+    article.setAttribute("data-ID", CartParts.id);
 
     let DivpourImagedupanier = document.createElement("div");
     DivpourImagedupanier.classList.add("cart__item__img");
@@ -24,17 +24,20 @@ for (let CartParts of Cart) {
 
     let DivpourItem = document.createElement("div");
     DivpourItem.classList.add("cart__item__content");
+    article.appendChild(DivpourItem);
 
     let DivpourTitlePrice = document.createElement("div");
+    DivpourItem.appendChild(DivpourTitlePrice);
     DivpourTitlePrice.classList.add("cart__item__content__titlePrice");
     let subtitle2 = document.createElement("h2");
     DivpourTitlePrice.appendChild(subtitle2);
-    subtitle2.innerHTML = CartParts.name; //Cartparts.name?..
+    subtitle2.innerHTML = CartParts.name;
     let phrase1 = document.createElement("p");
-    DivpourTitlePrice.appendChild("phrase1");
-    phrase1.innerHTML = (CartParts.price*CartParts.number) / 100;
+    DivpourTitlePrice.appendChild(phrase1);
+    phrase1.innerHTML = (CartParts.price*CartParts.number) / 100 + " €";
 
     let DivpourQtetInp = document.createElement("div");
+    DivpourItem.appendChild(DivpourQtetInp);
     DivpourQtetInp.classList.add("cart__item__content__settings");
     let DivpourQetI = document.createElement("div");
     DivpourQetI.classList.add("cart__item__content__settings__quantity");
@@ -52,13 +55,68 @@ for (let CartParts of Cart) {
     Input.setAttribute("value", CartParts.number);
     let Suppr = document.createElement("div");
     Suppr.classList.add("cart__item__content__settings_delete");
+    DivpourQtetInp.appendChild(Suppr);
+    let phrase2 = document.createElement("p");
+    Suppr.appendChild(phrase2);
+    phrase2.classList.add("deleteItem");
+    phrase2.innerHTML = "Supprimer";
+
+    console.log("Un nouveau produit est rajouté dans le panier.");
+}
+/*
+for (let i in Cart) {
+    let article = document.createElement("article");
+    document.getElementById("cart__items").appendChild(article);
+    article.classList.add("cart__item");
+    article.setAttribute("data-ID", Cart[i].id);
+
+    let DivpourImagedupanier = document.createElement("div");
+    DivpourImagedupanier.classList.add("cart__item__img");
+    article.appendChild(DivpourImagedupanier);
+    let Imagedupanier = document.createElement("img");
+    Imagedupanier.setAttribute("src", Cart[i].image);
+    Imagedupanier.setAttribute("alt", Cart[i].alternative);
+    DivpourImagedupanier.appendChild(Imagedupanier);
+
+    let DivpourItem = document.createElement("div");
+    DivpourItem.classList.add("cart__item__content");
+
+    let DivpourTitlePrice = document.createElement("div");
+    DivpourTitlePrice.classList.add("cart__item__content__titlePrice");
+    let subtitle2 = document.createElement("h2");
+    DivpourTitlePrice.appendChild(subtitle2);
+    subtitle2.innerHTML = Cart[i].name;
+    let phrase1 = document.createElement("p");
+    DivpourTitlePrice.appendChild("phrase1");
+    phrase1.innerHTML = (Cart[i].price*Cart[i].number) / 100;
+
+    let DivpourQtetInp = document.createElement("div");
+    DivpourQtetInp.classList.add("cart__item__content__settings");
+    let DivpourQetI = document.createElement("div");
+    DivpourQetI.classList.add("cart__item__content__settings__quantity");
+    DivpourQtetInp.appendChild(DivpourQetI);
+    let Qte = document.createElement("p");
+    DivpourQetI.appendChild(Qte);
+    Qte.innerHTML = "Qté : ";
+    let Input = document.createElement("input");
+    DivpourQetI.appendChild(Input);
+    Input.setAttribute("type", "number");
+    Input.classList.add("itemQuantity");
+    Input.setAttribute("name", "itemQuantity");
+    Input.setAttribute("min", "1");
+    Input.setAttribute("max", "100");
+    Input.setAttribute("value", Cart[i].number);
+    let Suppr = document.createElement("div");
+    Suppr.classList.add("cart__item__content__settings_delete");
     DivpourQtetInp.appendChild("Suppr");
     let phrase2 = document.createElement("p");
     phrase2.classList.add("deleteItem");
     phrase2.innerHTML = "Supprimer";
 
-    console.log("Un nouveau produit est rajouté dans le panier.")
-}
+    console.log("Un nouveau produit est rajouté dans le panier.");
+}*/
+
+//ShowAllproductsinDOM();
 
 
 //==============================
@@ -204,7 +262,7 @@ function ValidateFormforAdress(elementinDOM, form) {
     }
 }
 
-document.getElementById("adress").onchange = ValidateFormforEmail("adress", "addressErrorMsg");
+document.getElementById("address").onchange = ValidateFormforAdress("address", "addressErrorMsg");
 
 //=====================================
 
@@ -236,12 +294,12 @@ function ProductsToBuy() {
 }
 
 class Customer {
-    constructor(firstName, lastName, city, email, adress) {
+    constructor(firstName, lastName, city, email, address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
     }
 }
 
