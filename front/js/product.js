@@ -22,9 +22,6 @@ OnerequestState
             
             alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
             document.body.remove();
-            //let phrase_err = document.createElement("p");
-            //document.getElementsByTagName("section").replaceChild(document.getElementsByTagName("article"), phrase_err);
-            //phrase_err.innerHTML = "Une erreur est survenue. Vous serez redirigé vers la page d'accueil dans 5 secondes.";
             setTimeout(document.location.href = "https://salifrout.github.io/Projet-Kanap/front/html/index.html", 1000);
             
         } else if (product_ID !== undefined) {
@@ -47,8 +44,6 @@ OnerequestState
                 colorInOption.setAttribute("option", color);
                 colorInOption.innerHTML = color;
             }  
-        } else {
-            //essayer display none sur l'article ou la section puis set time out renvoyer vers page d'accueil
         }
     })
     .catch(function(err) {
@@ -71,23 +66,6 @@ class Product {
     }
 }
 
-let OneProduct = {}; //peutetre a suprimmer
-
-//les fonctions suivantes permettent de créer une nouvelle classe, mettre dans un tableau, vider le localstorage avant d'y remettre le tableau mis à jour
-/*function CreateProductForCart() {
-    if (document.getElementById("quantity").value == 0 || document.getElementById("quantity").value > 100) {
-        alert("La quantité choisie pour votre produit n'est pas possible. Veuillez choisir une quantité différente.");
-        return false;
-    } else {
-    let quantite = document.getElementById("quantity").value;
-    let couleur = document.getElementById("colors").value;
-
-    let OneProduct = new Product(value.id, quantite, couleur, value.imageUrl, value.altTxt, value.name, value.price);   
-        
-    return true;
-    }    
-}*/
-
 async function CreateProductForCart() {
     const request = await fetch("http://localhost:3000/api/products/" + product_ID);
     const result = await request.json();
@@ -97,49 +75,50 @@ async function CreateProductForCart() {
     const valueForprice = await result.price;
     const valueForID = await result._id;
 
-    //if (document.getElementById("quantity").value == 0 || document.getElementById("quantity").value > 100) {
-      //  alert("La quantité choisie pour votre produit n'est pas possible. Veuillez choisir une quantité différente.");
-       // return false;
-    //} else {
+    if (document.getElementById("quantity").value == 0 || document.getElementById("quantity").value > 100) {
+        alert("La quantité choisie pour votre produit n'est pas possible. Veuillez choisir une quantité différente.");
+        return false;
+    } else {
     let quantite = document.getElementById("quantity").value;
     let couleur = document.getElementById("colors").value;
 
     let OneProduct = new Product(valueForID, quantite, couleur, valueForimage, valueForalternative, valueForname, valueForprice);   
         
     return OneProduct;
-    //}    
+    }    
 }
-
-let Cart = []; //peutêtre a supprimer...
 
 //fonction pour augmenter quantité d'un produit choisi
 async function UpdateCart() {
 
     let OneProduct = await CreateProductForCart();
 
-    if (Cart.length === 0) {
+    //if (Cart.length === 0) {
+    if (!JSON.parse(localStorage.getItem('Allproducts'))) {
+        let Cart = [];
         Cart.push(OneProduct);
         console.log("Le panier est vide, un nouveau produit est ajouté.");
+        return Cart;
     } else {
+        let Cart = JSON.parse(localStorage.getItem("Allproducts"));
         for (let CartParts of Cart) {
-            if (CartParts === OneProduct) {
-                CartParts.number += OneProduct.number;
+            if (OneProduct === CartParts) {
+                OneProduct.number += CartParts.number;
                 console.log("On augmente la quantité pour un produit.");
+                return Cart;
             } else { 
                 Cart.push(OneProduct);
                 console.log("Un produit est ajouté au panier.");  
+                return Cart;
             }
         }
     }
-
-    return Cart;
-
 }
     
 //vider le local puis remettre le tableau mis à jour
 async function UpdateStorage() {
 
-    const Cart = await UpdateCart();
+    let Cart = await UpdateCart();
 
     localStorage.removeItem('Allproducts');
     localStorage.setItem('Allproducts', JSON.stringify(Cart));
@@ -166,18 +145,12 @@ async function AddNewProductInStorage() {
 }
 
 //exécuter la dernière fonction lors du clique de l'utilisateur sur le bouton
-//document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
-AddNewProductInStorage();
-
-
-//soit ca marche directement, soit il faudra rendre la fonction Addnewproductinstorage en aynschrone et l'appeler lors de addEventlistener final !
-//quitte à ce que UpdateCart aie un await sur Oneproduct de CreateProductforCart
-
-
-console.log("bonjour");
+document.getElementById("addToCart").addEventListener('click', AddNewProductInStorage);
 
 
 
-//mettre tout ce quiest apres fetch entre comentaire, puis mettre fonction synchrone ou asynchrone les unes par unes endessous, et les appeler, pouvoir voir ce que donne le débouguer comme résultat !
 
-
+/*que les memes produits augmentent la quantité au lieu de se rajouter
+que le prix du produit change lors de la quantité
+que le bouton supprimer soit effectif
+mettre le total de tous les produits*/

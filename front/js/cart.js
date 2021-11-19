@@ -54,7 +54,7 @@ for (let CartParts of Cart) {
     Input.setAttribute("max", "100");
     Input.setAttribute("value", CartParts.number);
     let Suppr = document.createElement("div");
-    Suppr.classList.add("cart__item__content__settings_delete");
+    Suppr.classList.add("cart__item__content__settings__delete");
     DivpourQtetInp.appendChild(Suppr);
     let phrase2 = document.createElement("p");
     Suppr.appendChild(phrase2);
@@ -63,60 +63,7 @@ for (let CartParts of Cart) {
 
     console.log("Un nouveau produit est rajouté dans le panier.");
 }
-/*
-for (let i in Cart) {
-    let article = document.createElement("article");
-    document.getElementById("cart__items").appendChild(article);
-    article.classList.add("cart__item");
-    article.setAttribute("data-ID", Cart[i].id);
 
-    let DivpourImagedupanier = document.createElement("div");
-    DivpourImagedupanier.classList.add("cart__item__img");
-    article.appendChild(DivpourImagedupanier);
-    let Imagedupanier = document.createElement("img");
-    Imagedupanier.setAttribute("src", Cart[i].image);
-    Imagedupanier.setAttribute("alt", Cart[i].alternative);
-    DivpourImagedupanier.appendChild(Imagedupanier);
-
-    let DivpourItem = document.createElement("div");
-    DivpourItem.classList.add("cart__item__content");
-
-    let DivpourTitlePrice = document.createElement("div");
-    DivpourTitlePrice.classList.add("cart__item__content__titlePrice");
-    let subtitle2 = document.createElement("h2");
-    DivpourTitlePrice.appendChild(subtitle2);
-    subtitle2.innerHTML = Cart[i].name;
-    let phrase1 = document.createElement("p");
-    DivpourTitlePrice.appendChild("phrase1");
-    phrase1.innerHTML = (Cart[i].price*Cart[i].number) / 100;
-
-    let DivpourQtetInp = document.createElement("div");
-    DivpourQtetInp.classList.add("cart__item__content__settings");
-    let DivpourQetI = document.createElement("div");
-    DivpourQetI.classList.add("cart__item__content__settings__quantity");
-    DivpourQtetInp.appendChild(DivpourQetI);
-    let Qte = document.createElement("p");
-    DivpourQetI.appendChild(Qte);
-    Qte.innerHTML = "Qté : ";
-    let Input = document.createElement("input");
-    DivpourQetI.appendChild(Input);
-    Input.setAttribute("type", "number");
-    Input.classList.add("itemQuantity");
-    Input.setAttribute("name", "itemQuantity");
-    Input.setAttribute("min", "1");
-    Input.setAttribute("max", "100");
-    Input.setAttribute("value", Cart[i].number);
-    let Suppr = document.createElement("div");
-    Suppr.classList.add("cart__item__content__settings_delete");
-    DivpourQtetInp.appendChild("Suppr");
-    let phrase2 = document.createElement("p");
-    phrase2.classList.add("deleteItem");
-    phrase2.innerHTML = "Supprimer";
-
-    console.log("Un nouveau produit est rajouté dans le panier.");
-}*/
-
-//ShowAllproductsinDOM();
 
 
 //==============================
@@ -142,16 +89,16 @@ function UpdateQtyForCartParts(ProductChanged) {
 }
 
 function UpdateStorage() {
-    localstorage.removeItem('Allproducts');
-    localstorage.setItem('Allproducts', Cart);
+    localStorage.removeItem('Allproducts');
+    localStorage.setItem('Allproducts', Cart);
     console.log("Le Storage s'est mis à jour.");
 }
 
 //créer une fonction pour exécuter toutes ses fonctions précédentes en même temps
 function UpdateCartAfterOneChange() {
-    UpdateQtyForProduct;
+    UpdateQtyForProduct();
     UpdateQtyForCartParts(CartParts);
-    UpdateStorage;
+    UpdateStorage();
 }
 
 //envisager de rassembler les codes de fonction courte dnas cette autre fonction
@@ -159,7 +106,8 @@ function UpdateCartAfterOneChange() {
 //mettre à jour la quantité de produit choisi par l(utilisateur)
 for (let CartParts of Cart) {
     let Input = document.getElementsByName("itemQuantity");
-    Input.addEventListener('change', UpdateCartAfterOneChange);
+    Input.addEventListener('change', UpdateCartAfterOneChange());
+    
 }
 
 //===========================
@@ -179,9 +127,9 @@ function Cartout(UselessProduct) {
 
 //une fonction pour récapituler les précédentes
 function SupprQte() {
-    DOMout;
+    DOMout();
     Cartout(CartParts);
-    UpdateStorage;
+    UpdateStorage();
 }
 
 //fonction updatestorage de cleanstorage et putinstorage
