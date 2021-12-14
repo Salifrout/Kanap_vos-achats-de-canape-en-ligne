@@ -32,6 +32,6 @@ REQUEST_STATE
         }
     })
     .catch(function(err) {
-        console.error("Une erreur empêche l'affichage de la liste des produits sur la page principale: " + err);
+        alert("Une erreur empêche l'affichage de la liste des produits sur la page principale: " + err);
     })
 ;

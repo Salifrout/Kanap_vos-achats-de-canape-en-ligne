@@ -1,5 +1,41 @@
 //*******************************Afficher les produits présents dans le panier*******************************//
 let Cart = [];
+//--> enregistrer les produits commandés
+let ArrayofProductsToConfirm = [];
+//--> création de la classe pour créer l'identité de l'acheteur
+class Customer {
+    constructor(firstName, lastName, city, email, address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.email = email;
+        this.address = address;
+    }
+}
+
+const InputQ = document.querySelector(".cart__item__content__settings__quantity input");
+const phrase2 = document.getElementsByClassName("deleteItem");
+
+//--> création d'une instance de classe pour créer un nouvel acheteur
+let Infos_Customer = {};
+const SEND_COMMAND = "http://localhost:3000/api/products/order";
+
+//--> créer des constantes pour identifier les champs de formulaire présents dans le DOM
+const FIRSTNAME = document.getElementById("firstName");
+const LASTNAME = document.getElementById("lastName");
+const CITY = document.getElementById("city");
+const EMAIL = document.getElementById("email");
+const ADDRESS = document.getElementById("address");
+
+//--> vérifier pour le nom, prénom et la ville
+const VALIDATIONFORSTRING = new RegExp(/[A-Z][a-z]{2,}/);
+//--> vérifier pour l'email
+const VALIDATIONFOREMAIL = new RegExp(/[a-z|1-9]{2,}[@][a-z]{2,}[\.][a-z]{2,3}/);
+//--> vérifier pour l'adresse physique
+const VALIDATIONFORADDRESS = new RegExp(/.{7,60}/);
+
+let totalForarticles = [];
+let numberofarticles = 0;
 
 function getAllProducts() {
     Cart = JSON.parse(localStorage.getItem("Allproducts"));
@@ -64,18 +100,16 @@ if (localStorage.getItem("Allproducts")) {
         phrase2.classList.add("deleteItem");
         phrase2.innerHTML = "Supprimer";
     }
-} else {
 }
 
 //******************enregistrer un changement de quantité de la part de l'utilisateur************************//
 
 //--> modifier la quantité d'un produit enregistré dans le tableau
 function UpdateQtyForCartParts(ProductChanged) {
-    let Input = document.querySelector(".cart__item__content__settings__quantity input");
-    ProductChanged.number = Input.value;
+    ProductChanged.number = InputQ.value;
     
     const Element_modified = Cart.indexOf(ProductChanged);
-    Cart.splice(Element_modified, 1, ProductChanged);
+    Cart.splice(Element_modified, 1, ProductChanged); //
 }
 
 //--> vider le local puis y remettre le tableau mis à jour
@@ -87,8 +121,7 @@ function UpdateStorage() {
 
 if (document.querySelector("article")) {
     for (let CartParts of Cart) {
-        let Input = document.querySelector(".cart__item__content__settings__quantity input");   
-        Input.addEventListener('input', function (event) {
+        InputQ.addEventListener('input', function (event) {
             event.preventDefault();
             UpdateQtyForCartParts(CartParts);
             UpdateStorage();
@@ -98,8 +131,6 @@ if (document.querySelector("article")) {
 }
 
 //**********supprimer un produit du DOM et du localStorage lors du choix de l'utilisateur*****************//
-
-const phrase2 = document.getElementsByClassName("deleteItem");
 
 if (document.querySelector("article")) {
     for (let S = 0; S < phrase2.length; S++) {
@@ -111,15 +142,12 @@ if (document.querySelector("article")) {
 
             localStorage.setItem("Allproducts", JSON.stringify(Cart));
             alert("Un produit a été supprimé du panier.");
-            window.location.href = "cart.html";
+            location.reload();
         })
     }
 }
 
 //**********afficher le nombre total de produits présents dans le panier et le prix correspondant************//
-
-let totalForarticles = [];
-let numberofarticles = 0;
 
 if (document.querySelector("article")) {
     for (let T = 0; T < Cart.length; T++) {
@@ -141,16 +169,6 @@ if (document.querySelector("article")) {
 }
 
 //***************vérifier les données saisies par l'utilisateur dans le formulaire*******************//
-
-//--> créer des constantes pour identifier les champs de formulaire présents dans le DOM
-const FIRSTNAME = document.getElementById("firstName");
-const LASTNAME = document.getElementById("lastName");
-const CITY = document.getElementById("city");
-const EMAIL = document.getElementById("email");
-const ADDRESS = document.getElementById("address");
-
-//--> vérifier pour le nom, prénom et la ville
-const VALIDATIONFORSTRING = new RegExp(/[A-Z][a-z]{2,}/);
 
 function ValidateFormforString(elementinDOM, Sentenceforwarning) {
     if (VALIDATIONFORSTRING.test(elementinDOM)) {
@@ -178,9 +196,6 @@ CITY.addEventListener("change", function(e) {
     )
 ; 
 
-//--> vérifier pour l'email
-const VALIDATIONFOREMAIL = new RegExp(/[a-z|1-9]{2,}[@][a-z]{2,}[\.][a-z]{2,3}/);
-
 function ValidateFormforEmail(elementinDOM) {
     if (VALIDATIONFOREMAIL.test(elementinDOM)) {
         return true;
@@ -195,9 +210,6 @@ EMAIL.addEventListener("change", function(e) {
     ValidateFormforEmail(EMAIL.value)}
     )
 ;
-
-//--> vérifier pour l'adresse physique
-const VALIDATIONFORADDRESS = new RegExp(/.{7,60}/);
 
 function ValidateFormforAdress(elementinDOM) {
     if (VALIDATIONFORADDRESS.test(elementinDOM)) {
@@ -214,19 +226,7 @@ ADDRESS.addEventListener("change", function(e) {
     )
 ;
 
-//=====================================
-
-//créer l'array pour les éléments du formulaire (contact du visiteur) puis pour l'ensemble des produits (array of strings des id de produits),
-//puis POST vers l'API en json ces deyux tableaux
-//faire un test avec la console pour voir si bien effectuer
-//passer à la page de confirmation
-
-// let array = éléments récupérés dans le formulaire .value 
-
 //**************************création de la commande de l'utilisateur****************************//
-
-//--> enregistrer les produits commandés
-let ArrayofProductsToConfirm = [];
 
 function ProductsToBuy() {
     if (VALIDATIONFORSTRING.test(FIRSTNAME.value) && VALIDATIONFORSTRING.test(LASTNAME.value) && VALIDATIONFORSTRING.test(CITY.value) && VALIDATIONFOREMAIL.test(EMAIL.value) && VALIDATIONFORADDRESS.test(ADDRESS.value)) {
@@ -236,7 +236,6 @@ function ProductsToBuy() {
                     ArrayofProductsToConfirm.push(CartParts.id);
                     console.log("la commande de la totalité des produits a été enregistrée.");
                     return ArrayofProductsToConfirm; 
-                } else {
                 }
             }
         } else {
@@ -248,20 +247,6 @@ function ProductsToBuy() {
         alert("Vous ne pouvez effectuer une commande sans avoir entré toutes vos informations de contact.");
     }
 }
-
-//--> création de la classe pour créer l'identité de l'acheteur
-class Customer {
-    constructor(firstName, lastName, city, email, address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.email = email;
-        this.address = address;
-    }
-}
-
-//--> création d'une instance de classe pour créer un nouvel acheteur
-let Infos_Customer = {};
 
 function InfosToRegister() {
 
@@ -277,8 +262,6 @@ function InfosToRegister() {
         return false;
     }
 }
-
-const SEND_COMMAND = "http://localhost:3000/api/products/order";
   
 async function RegisterforConfirming() {
     const CommandeByClient = {contact: Infos_Customer, products: ArrayofProductsToConfirm};
@@ -323,3 +306,8 @@ document.getElementById("order").addEventListener('click', async function(e) {
 
 
 //FAIRE EN SORTE QUE PRIX SACUTALISE LORS CHANGEMENT DE QUANTITE
+
+//chercher les conventiens en javascript
+//mettre tt les variables au début du fichier et si besoin de donner à l'utilisateur, rappeler en commentaire... !!!
+//enlever tous les console.log du fichier
+//revoir les commentaires que je donne (pas de TODO) et que de la doc !

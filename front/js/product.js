@@ -9,6 +9,19 @@ const product_ID = url.searchParams.get("id");
 
 const OnerequestState = fetch("http://localhost:3000/api/products/" + product_ID);
 
+//--> créer une classe pour constituer la sélection de chaque produit
+class Product {
+    constructor(id, number, coloration, image, alternative, name, price) {
+        this.id = id;
+        this.number = number;
+        this.coloration = coloration;
+        this.image = image;
+        this.alternative = alternative;
+        this.name = name;
+        this.price = price;
+    }
+}
+
 //--> requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
 OnerequestState
     .then(function(res) {
@@ -42,24 +55,13 @@ OnerequestState
         }  
     })
     .catch(function(err) {
-        console.error(err);
+        alert(err);
     })
 ;
 
 //*****************créer la sélection d'un produit et le rajouter dans le panier(localStorage)*************//
 
-//--> créer une classe pour constituer la sélection de chaque produit
-class Product {
-    constructor(id, number, coloration, image, alternative, name, price) {
-        this.id = id;
-        this.number = number;
-        this.coloration = coloration;
-        this.image = image;
-        this.alternative = alternative;
-        this.name = name;
-        this.price = price;
-    }
-}
+
 
 //--> créer une instance de classe à partir du choix de l'utilisateur du site
 async function CreateProductForCart() {
@@ -96,12 +98,15 @@ async function UpdateCart() {
     const AllProducts = localStorage.getItem('Allproducts');
     const Cart =  AllProducts ? JSON.parse(AllProducts) : [];
 
-    if (Cart.length == 0) {
+    if (Cart.length === 0) {
         Cart.push(OneProduct);
+        console.log("bad");
         return Cart; 
     } else {
-       for (let CartParts of Cart) {    
+       for (let CartParts of Cart) {        // essayer === au lieu de == car à cause du parse, le nouveau produit va dans else...
             if (CartParts.id === OneProduct.id && CartParts.coloration === OneProduct.coloration) {
+
+                console.log('nice');
 
                 let number_inCart = parseInt(CartParts.number);
                 let number_inOneProduct = parseInt(OneProduct.number);
@@ -112,13 +117,12 @@ async function UpdateCart() {
 
             } else { 
                 Cart.push(OneProduct);
+                console.log('bien');
                 return Cart;
             }
         } 
     }
 }
-
-localStorage.clear();
     
 //--> vider le local puis y remettre le tableau mis à jour
 async function UpdateStorage() {
@@ -132,8 +136,8 @@ async function UpdateStorage() {
 async function AddNewProductInStorage() {
         
     await UpdateStorage();
-    alert("Le produit a bien été rajouté au panier.")
-
+    alert("Le produit a bien été rajouté au panier.");
+    location.reload(); //peut etre a supprimer
 }
 
 //*****************envoyer le nouveau produit sélectionné dans la page panier (localStorage)******************//
