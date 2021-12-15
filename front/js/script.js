@@ -1,12 +1,23 @@
-//*************************Afficher les différents produits dans le panier********************//
-
-const REQUEST_STATE = fetch("http://localhost:3000/api/products");
+const requestState = fetch("http://localhost:3000/api/products");
  
-REQUEST_STATE
+requestState
     .then(function(res) {
+        // ici si tu veut ré attaché une methode .then en dessous
+        // tu doit retourné une nouvelle Promise
+ 
+         // res.json() renvoi une Promise et ne donne pas directement les résultat
+        console.info(res); // <- [Object <"pending">]
+         
+        // retourne une nouvelle promise
         return res.json();
     })
     .then(function(value) {
+        // ici value correspond au données JSON renvoyé par le serveur
+     
+        // ici product n'existe pas elle n'est pas définit dans ce scope
+        // value correspond à products
+        // for(val of value) {...}
+        
         for (val of value) {
             let link = document.createElement("a");
             document.getElementById('items').appendChild(link);
@@ -32,6 +43,11 @@ REQUEST_STATE
         }
     })
     .catch(function(err) {
+<<<<<<< HEAD
         alert("Une erreur empêche l'affichage de la liste des produits sur la page principale: " + err);
+=======
+        // ici la requête à planté
+        console.log("Une erreur empêche le résultat de s'afficher");
+>>>>>>> parent of 816ff5a (fin projet)
     })
 ;
