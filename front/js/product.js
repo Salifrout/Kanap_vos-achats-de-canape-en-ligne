@@ -1,4 +1,6 @@
-//****************Afficher le produit sélectionné depuis la page d'accueil sur la page product**************//
+//******************************************************************************************************//
+//*******************************déclaration des variables et constantes********************************//
+//******************************************************************************************************//
 
 //--> créer un nom de variable pour récupérer l'URL de la page
 const URLofpage = location;
@@ -22,46 +24,9 @@ class Product {
     }
 }
 
-//--> requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
-OnerequestState
-    .then(function(res) {
-        if (res.ok) {
-            return res.json();
-        } else {
-            alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
-            setTimeout(document.location.href = "./index.html", 400);
-            return false;
-        }
-    })
-    .then(function(value) {
-        
-        let product_img = document.createElement("img");
-        document.querySelector("section.item article div.item__img").appendChild(product_img);
-        product_img.setAttribute("alt", value.altTxt + ", " + value.name);
-        product_img.setAttribute("src", value.imageUrl);
-
-        document.getElementById("title").innerHTML = value.name;
-        document.getElementById("price").innerHTML = value.price / 100 + " ";
-        document.getElementById("description").innerHTML = value.description;
-
-        document.getElementById("colors").options.length = 0;
-
-        let colorsofproduct = value.colors;
-        for (let color of colorsofproduct) {
-            let colorInOption = document.createElement("option");
-            document.getElementById("colors").appendChild(colorInOption);
-            colorInOption.setAttribute("option", color);
-            colorInOption.innerHTML = color;
-        }  
-    })
-    .catch(function(err) {
-        alert(err);
-    })
-;
-
-//*****************créer la sélection d'un produit et le rajouter dans le panier(localStorage)*************//
-
-
+//******************************************************************************************************//
+//***************************************création des fonctions*****************************************//
+//******************************************************************************************************//
 
 //--> créer une instance de classe à partir du choix de l'utilisateur du site
 async function CreateProductForCart() {
@@ -100,13 +65,10 @@ async function UpdateCart() {
 
     if (Cart.length === 0) {
         Cart.push(OneProduct);
-        console.log("bad");
         return Cart; 
     } else {
-       for (let CartParts of Cart) {        // essayer === au lieu de == car à cause du parse, le nouveau produit va dans else...
-            if (CartParts.id === OneProduct.id && CartParts.coloration === OneProduct.coloration) {
-
-                console.log('nice');
+       for (let CartParts of Cart) {
+            if (CartParts.id == OneProduct.id && CartParts.coloration == OneProduct.coloration) {
 
                 let number_inCart = parseInt(CartParts.number);
                 let number_inOneProduct = parseInt(OneProduct.number);
@@ -117,13 +79,12 @@ async function UpdateCart() {
 
             } else { 
                 Cart.push(OneProduct);
-                console.log('bien');
                 return Cart;
             }
         } 
     }
 }
-    
+
 //--> vider le local puis y remettre le tableau mis à jour
 async function UpdateStorage() {
     const Cart = await UpdateCart();
@@ -132,17 +93,55 @@ async function UpdateStorage() {
     localStorage.setItem('Allproducts', JSON.stringify(Cart));
 }
 
-//--> rassembler toutes les fonctions précédentes en une seule
+//--> confirmer le rajout du produit dans le panier
 async function AddNewProductInStorage() {
         
     await UpdateStorage();
     alert("Le produit a bien été rajouté au panier.");
-    location.reload(); //peut etre a supprimer
 }
 
-//*****************envoyer le nouveau produit sélectionné dans la page panier (localStorage)******************//
+//******************************************************************************************************//
+//******************************appel des fonctions et excétuion du code********************************//
+//******************************************************************************************************//
 
-//--> exécuter les fonctions précédentes lors du click de l'utilisateur
+//--> requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
+OnerequestState
+    .then(function(res) {
+        if (res.ok) {
+            return res.json();
+        } else {
+            alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
+            setTimeout(document.location.href = "./index.html", 400);
+            return false;
+        }
+    })
+    .then(function(value) {
+        
+        let product_img = document.createElement("img");
+        document.querySelector("section.item article div.item__img").appendChild(product_img);
+        product_img.setAttribute("alt", value.altTxt + ", " + value.name);
+        product_img.setAttribute("src", value.imageUrl);
+
+        document.getElementById("title").innerHTML = value.name;
+        document.getElementById("price").innerHTML = value.price / 100 + " ";
+        document.getElementById("description").innerHTML = value.description;
+
+        document.getElementById("colors").options.length = 0;
+
+        let colorsofproduct = value.colors;
+        for (let color of colorsofproduct) {
+            let colorInOption = document.createElement("option");
+            document.getElementById("colors").appendChild(colorInOption);
+            colorInOption.setAttribute("option", color);
+            colorInOption.innerHTML = color;
+        }  
+    })
+    .catch(function(err) {
+        alert(err);
+    })
+;
+
+//--> envoyer le nouveau produit sélectionné dans la page panier (localStorage)
 document.getElementById("addToCart").addEventListener('click', async function(event) {
     event.preventDefault();
     AddNewProductInStorage()
