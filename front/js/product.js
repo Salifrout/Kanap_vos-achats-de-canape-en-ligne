@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 //******************************************************************************************************//
 //*******************************déclaration des variables et constantes********************************//
 //******************************************************************************************************//
@@ -7,6 +8,9 @@
 let URLofpage = location;
 let url = new URL(URLofpage);
 >>>>>>> parent of 816ff5a (fin projet)
+=======
+//****************Afficher le produit sélectionné depuis la page d'accueil sur la page product**************//
+>>>>>>> parent of ec5678c (mise en forme finale /1)
 
 //créer une variable pour définir la valeur du paramètre id situé dans l'URL
 let product_ID = url.searchParams.get("id");
@@ -77,9 +81,52 @@ class Product {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //******************************************************************************************************//
 //***************************************création des fonctions*****************************************//
 //******************************************************************************************************//
+=======
+//--> requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
+OnerequestState
+    .then(function(res) {
+        if (res.ok) {
+            return res.json();
+        } else {
+            alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
+            setTimeout(document.location.href = "./index.html", 400);
+            return false;
+        }
+    })
+    .then(function(value) {
+        
+        let product_img = document.createElement("img");
+        document.querySelector("section.item article div.item__img").appendChild(product_img);
+        product_img.setAttribute("alt", value.altTxt + ", " + value.name);
+        product_img.setAttribute("src", value.imageUrl);
+
+        document.getElementById("title").innerHTML = value.name;
+        document.getElementById("price").innerHTML = value.price / 100 + " ";
+        document.getElementById("description").innerHTML = value.description;
+
+        document.getElementById("colors").options.length = 0;
+
+        let colorsofproduct = value.colors;
+        for (let color of colorsofproduct) {
+            let colorInOption = document.createElement("option");
+            document.getElementById("colors").appendChild(colorInOption);
+            colorInOption.setAttribute("option", color);
+            colorInOption.innerHTML = color;
+        }  
+    })
+    .catch(function(err) {
+        alert(err);
+    })
+;
+
+//*****************créer la sélection d'un produit et le rajouter dans le panier(localStorage)*************//
+
+
+>>>>>>> parent of ec5678c (mise en forme finale /1)
 
 //--> créer une instance de classe à partir du choix de l'utilisateur du site
 =======
@@ -119,12 +166,22 @@ async function UpdateCart() {
         let Cart = [];
 >>>>>>> parent of 816ff5a (fin projet)
         Cart.push(OneProduct);
+<<<<<<< HEAD
         console.log("Le panier est vide, un nouveau produit est ajouté.");
         return Cart;
     } else {
 <<<<<<< HEAD
        for (let CartParts of Cart) {
             if (CartParts.id == OneProduct.id && CartParts.coloration == OneProduct.coloration) {
+=======
+        console.log("bad");
+        return Cart; 
+    } else {
+       for (let CartParts of Cart) {        // essayer === au lieu de == car à cause du parse, le nouveau produit va dans else...
+            if (CartParts.id === OneProduct.id && CartParts.coloration === OneProduct.coloration) {
+
+                console.log('nice');
+>>>>>>> parent of ec5678c (mise en forme finale /1)
 
                 let number_inCart = parseInt(CartParts.number);
                 let number_inOneProduct = parseInt(OneProduct.number);
@@ -141,14 +198,22 @@ async function UpdateCart() {
                 return Cart;
             } else { 
                 Cart.push(OneProduct);
+<<<<<<< HEAD
                 console.log("Un produit est ajouté au panier.");  
+=======
+                console.log('bien');
+>>>>>>> parent of ec5678c (mise en forme finale /1)
                 return Cart;
             }
         }
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> parent of ec5678c (mise en forme finale /1)
 //--> vider le local puis y remettre le tableau mis à jour
 =======
     
@@ -164,10 +229,14 @@ async function UpdateStorage() {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //--> confirmer le rajout du produit dans le panier
 =======
 //créer une fonction unique qui permettra d'exécuter toutes les fonctions précédentes à la fois
 >>>>>>> parent of 816ff5a (fin projet)
+=======
+//--> rassembler toutes les fonctions précédentes en une seule
+>>>>>>> parent of ec5678c (mise en forme finale /1)
 async function AddNewProductInStorage() {
     if (product_ID !== undefined) {
         await CreateProductForCart();
@@ -175,54 +244,17 @@ async function AddNewProductInStorage() {
 <<<<<<< HEAD
     await UpdateStorage();
     alert("Le produit a bien été rajouté au panier.");
+    location.reload(); //peut etre a supprimer
 }
 
-//******************************************************************************************************//
-//******************************appel des fonctions et excétuion du code********************************//
-//******************************************************************************************************//
+//*****************envoyer le nouveau produit sélectionné dans la page panier (localStorage)******************//
 
-//--> requêter l'API et faire apparaitre le produit sélectionné depuis la page d'accueil
-OnerequestState
-    .then(function(res) {
-        if (res.ok) {
-            return res.json();
-        } else {
-            alert("Une erreur est survenue. Vous allez être redirigé vers la page d'accueil dans quelques instants.");
-            setTimeout(document.location.href = "./index.html", 400);
-            return false;
-        }
-    })
-    .then(function(value) {
-        
-        let product_img = document.createElement("img");
-        document.querySelector("section.item article div.item__img").appendChild(product_img);
-        product_img.setAttribute("alt", value.altTxt + ", " + value.name);
-        product_img.setAttribute("src", value.imageUrl);
-
-        document.getElementById("title").innerHTML = value.name;
-        document.getElementById("price").innerHTML = value.price / 100 + " ";
-        document.getElementById("description").innerHTML = value.description;
-
-        document.getElementById("colors").options.length = 0;
-
-        let colorsofproduct = value.colors;
-        for (let color of colorsofproduct) {
-            let colorInOption = document.createElement("option");
-            document.getElementById("colors").appendChild(colorInOption);
-            colorInOption.setAttribute("option", color);
-            colorInOption.innerHTML = color;
-        }  
-    })
-    .catch(function(err) {
-        alert(err);
-    })
-;
-
-//--> envoyer le nouveau produit sélectionné dans la page panier (localStorage)
+//--> exécuter les fonctions précédentes lors du click de l'utilisateur
 document.getElementById("addToCart").addEventListener('click', async function(event) {
     event.preventDefault();
     AddNewProductInStorage()
 });
+<<<<<<< HEAD
 =======
         if (CreateProductForCart()) {
            // await UpdateCart();
@@ -249,3 +281,5 @@ que le prix du produit change lors de la quantité
 que le bouton supprimer soit effectif
 mettre le total de tous les produits*/
 >>>>>>> parent of 816ff5a (fin projet)
+=======
+>>>>>>> parent of ec5678c (mise en forme finale /1)
