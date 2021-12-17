@@ -2,6 +2,12 @@
 //*******************************déclaration des variables et constantes********************************//
 //******************************************************************************************************//
 
+//--> variable pour nommer le tableau contenant la liste des produits présents dans le panier
+let Cart = [];
+
+//--> enregistrer les produits commandés
+let ArrayofProductsToConfirm = [];
+
 //--> création de la classe pour créer l'identité de l'acheteur
 class Customer {
     constructor(firstName, lastName, city, email, address) {
@@ -13,36 +19,37 @@ class Customer {
     }
 }
 
-//--> instance de classe pour créer un nouvel acheteur
+//--> création d'une instance de classe pour créer un nouvel acheteur
 let Infos_Customer = {};
 
-//--> tableau dont la confirmation des produits enregistrés dans le panier a été effectuée et sont à commander
-let ArrayofProductsToConfirm = [];
+const InputQ = document.querySelector(".cart__item__content__settings__quantity input"); //??????????
+const phrase_pour_supp = document.getElementsByClassName("deleteItem"); //???????????????????????????
 
-//--> variables pour calculer le nombre total de produits présents dans le panier et le prix ototal de ceux-ci
-let totalForarticles = [];
-let numberofarticles = 0;
+//--> créer des constantes pour identifier les champs de formulaire présents dans le DOM
+const FIRSTNAME = document.getElementById("firstName");
+const LASTNAME = document.getElementById("lastName");
+const CITY = document.getElementById("city");
+const EMAIL = document.getElementById("email");
+const ADDRESS = document.getElementById("address");
 
-//--> vérifier pour le nom, prénom et la ville dans le formulaire 
+//--> vérifier pour le nom, prénom et la ville
 const VALIDATIONFORSTRING = new RegExp(/[A-Z][a-z]{2,}/);
-//--> vérifier pour l'email dans le formulaire
+//--> vérifier pour l'email
 const VALIDATIONFOREMAIL = new RegExp(/[a-z|1-9]{2,}[@][a-z]{2,}[\.][a-z]{2,3}/);
-//--> vérifier pour l'adresse physique dans le formulaire
+//--> vérifier pour l'adresse physique
 const VALIDATIONFORADDRESS = new RegExp(/.{7,60}/);
 
 //--> pour requêter l'API
 const SEND_COMMAND = "http://localhost:3000/api/products/order";
 
-//--> liste des produits présents dans la panier
-let Cart = [];
-
 //******************************************************************************************************//
 //***************************************création des fonctions*****************************************//
 //******************************************************************************************************//
 
-//--> récupération des éléments du panier depuis le stockage local
+//--> créer une foncion pour récupérer les informations des produits situés dans le stockage local
 function getAllProducts() {
     Cart = JSON.parse(localStorage.getItem("Allproducts"));
+    console.log("Les produits sont récupérés.");
 }
 
 //--> vider le local puis y remettre le tableau mis à jour
@@ -150,7 +157,8 @@ async function Confirm() {
 //--> le panier est récupéré depuis le stockage local
 getAllProducts();
 
-//--> apparition des produits du panier sur la page
+//localStorage.clear();
+
 if (localStorage.getItem("Allproducts")) {
     for (let CartParts of Cart) {
 
@@ -201,74 +209,53 @@ if (localStorage.getItem("Allproducts")) {
         let Suppr = document.createElement("div");
         Suppr.classList.add("cart__item__content__settings__delete");
         DivpourQtetInp.appendChild(Suppr);
-        let phrase_for_supp = document.createElement("p");
-        Suppr.appendChild(phrase_for_supp);
-        phrase_for_supp.classList.add("deleteItem");
-        phrase_for_supp.innerHTML = "Supprimer";
+        let phrase_pour_supp = document.createElement("p");
+        Suppr.appendChild(phrase_pour_supp);
+        phrase_pour_supp.classList.add("deleteItem");
+        phrase_pour_supp.innerHTML = "Supprimer";
     }
 }
 
-//--> créer des constantes pour identifier les champs de formulaire présents dans le DOM !
-const FIRSTNAME = document.getElementById("firstName");
-const LASTNAME = document.getElementById("lastName");
-const CITY = document.getElementById("city");
-const EMAIL = document.getElementById("email");
-const ADDRESS = document.getElementById("address");
-
-/*let Input = document.querySelector(".cart__item__content__settings__quantity input");
+//******************enregistrer un changement de quantité de la part de l'utilisateur************************//
 
 //--> modifier la quantité d'un produit enregistré dans le tableau
-function UpdateQtyForCartParts(ProductChanged) {
-    
-    ProductChanged.number = Input.value;
-    console.log(ProductChanged.number + 'test1');
-    const Index_modified = Cart.indexOf(ProductChanged);
-    console.log(Index_modified + 'test2');
-    Cart.splice(Index_modified, 1, ProductChanged); 
-    console.log(typeof Cart + Cart.length + Cart + 'test3');
-}
 
-//--> enregistrement d'un changement de quantité de la part de l'utilisateur
-if (document.querySelector("article")) {
-    for (let CartParts of Cart) {
-        
-        Input.addEventListener('input', function (e) {
-            e.preventDefault();
-            console.log(Input + 'test0');
-            UpdateQtyForCartParts(CartParts);
-            UpdateStorage();
-            //location.reload();
-            }
-        )
-    }
-}*/
+//changer la valeur de la quantité dans le DOM et l'enregistrer
+function UpdateQtyForProduct() {
+    let Input = document.getElementsByName("itemQuantity");
+    let number = Input.value;
+    Input.setAttribute("value", number);
+} 
 
-//--> modifier la quantité d'un produit enregistré dans le tableau
+//modifier la valeur dans la classe
+//et dans le tableau
 function UpdateQtyForCartParts(ProductChanged) {
-    let Input = document.querySelector(".cart__item__content__settings__quantity input");
+    let input = document.getElementsByName("itemQuantity");
+
     ProductChanged.number = Input.value;
+
+    let KanapQty = Cart.indexOf(ProductChanged);
+    Cart.splice(KanapQty, 1, ProductChanged);
+
+    ProductChanged.number = InputQ.value;
     
     const Element_modified = Cart.indexOf(ProductChanged);
-    Cart.splice(Element_modified, 1, ProductChanged);
+    Cart.splice(Element_modified, 1, ProductChanged); //
+
 }
 
-//--> vider le local puis y remettre le tableau mis à jour
 function UpdateStorage() {
     localStorage.removeItem('Allproducts');
-    localStorage.setItem('Allproducts', JSON.stringify(Cart));
+    localStorage.setItem('Allproducts', Cart);
     console.log("Le Storage s'est mis à jour.");
 }
 
-if (document.querySelector("article")) {
-    for (let CartParts of Cart) {
-        let Input = document.querySelector(".cart__item__content__settings__quantity input");   
-        Input.addEventListener('input', function (event) {
-            event.preventDefault();
-            UpdateQtyForCartParts(CartParts);
-            UpdateStorage();
-            }
-        )
-    }
+
+//créer une fonction pour exécuter toutes ses fonctions précédentes en même temps
+function UpdateCartAfterOneChange() {
+    UpdateQtyForProduct();
+    UpdateQtyForCartParts(CartParts);
+    UpdateStorage();
 }
 
 //--> enregistrement d'un changement de quantité de la part de l'utilisateur
@@ -292,16 +279,43 @@ if (document.querySelector("article")) {
     }
 }*/
 
-//--> suppression d'un produit du DOM et du localStorage lors du choix de l'utilisateur
 if (document.querySelector("article")) {
-    const phrase_for_supp = document.getElementsByClassName("deleteItem");
+    for (let CartParts of Cart) {
+        InputQ.addEventListener('input', function (event) {
+            event.preventDefault();
+            UpdateQtyForCartParts(CartParts);
+            UpdateStorage();
+            }
+        )
+    }
+}
 
-    for (let S = 0; S < phrase_for_supp.length; S++) {
-        phrase_for_supp[S].addEventListener("click", (e) => {
-            e.preventDefault();
+//**********supprimer un produit du DOM et du localStorage lors du choix de l'utilisateur*****************//
+
+if (document.querySelector("article")) {
+    for (let S = 0; S < phrase_pour_supp.length; S++) {
+        phrase_pour_supp[S].addEventListener("click", (event) => {
+            event.preventDefault();
             let ProductToSuppress = Cart[S]; 
+//envisager de rassembler les codes de fonction courte dnas cette autre fonction
 
-            Cart = Cart.filter((element) => element !== ProductToSuppress);
+//mettre à jour la quantité de produit choisi par l(utilisateur)
+for (let CartParts of Cart) {
+    let Input = document.getElementsByName("itemQuantity");
+    Input.addEventListener('change', UpdateCartAfterOneChange());
+    
+}
+
+//===========================
+
+
+//faire disparaitre du DOM avec display: none
+function DOMout() {
+    let phrase_pour_supp = document.getElementsByClassName("deleteItem");
+    let article = phrase_pour_supp.closest("article");
+    article.remove();
+}
+
 
             localStorage.setItem("Allproducts", JSON.stringify(Cart));
             alert("Un produit a été supprimé du panier.");
@@ -310,62 +324,138 @@ if (document.querySelector("article")) {
     }
 }
 
-//--> afficher le nombre total de produits présents dans le panier et le prix correspondant
+//**********afficher le nombre total de produits présents dans le panier et le prix correspondant************//
+
 if (document.querySelector("article")) {
     for (let T = 0; T < Cart.length; T++) {
     
         let Totalpriceofarticles = Cart[T].price*Cart[T].number;
         numberofarticles += parseInt(Cart[T].number);
 
-        totalForarticles.push(Totalpriceofarticles);
-    }
-
-    const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
-    const TotalPrice = totalForarticles.reduce(reducer, 0);
-
-    document.getElementById("totalPrice").innerHTML = TotalPrice / 100;
-    document.getElementById("totalQuantity").innerHTML = parseInt(numberofarticles);
-} else {
-    document.getElementById("totalPrice").innerHTML = 0;
-    document.getElementById("totalQuantity").innerHTML = 0;
+//sortir le produit du tableau
+function Cartout(UselessProduct) {
+    let KanapSuppr = Cart.indexOf(UselessProduct);
+    Cart.splice(KanapSuppr);
 }
 
+//une fonction pour récapituler les précédentes
+function SupprQte() {
+    DOMout();
+    Cartout(CartParts);
+    UpdateStorage();
+}
+
+//fonction updatestorage de cleanstorage et putinstorage
+
+//éliminer un produit si l'utilisateur le supprime
+for (let CartParts of Cart) {
+    let phrase_pour_supp = document.getElementsByClassName("deleteItem");
+    phrase_pour_supp.addEventListener('click', SupprQte);
+}
+
+
+//============================================= 
+//indiquer à l'utilisateur le nombre total de produits et le prix total à payer
+//===================================
+
+let numberOfarticles = 0;
+let totalForarticles = 0;
+
+for (let CartParts of Cart) {
+    numberofarticles += CartParts.number;
+    totalForarticles += CartParts.number*CartParts.price;
+}
+
+
 //--> vérification des données saisies par l'utilisateur dans le formulaire 1/5
+
+//***************vérifier les données saisies par l'utilisateur dans le formulaire*******************//
+
 FIRSTNAME.onchange = function(e){
     e.preventDefault();
     ValidateFormforString(FIRSTNAME.value, "prénom")
 };
 
-//--> vérification des données saisies par l'utilisateur dans le formulaire 2/5
 LASTNAME.addEventListener("change", function(e) {
     e.preventDefault();
     ValidateFormforString(LASTNAME.value, "nom de famille")}
     )
 ;
 
-//--> vérification des données saisies par l'utilisateur dans le formulaire 3/5
 CITY.addEventListener("change", function(e) {
     e.preventDefault();
     ValidateFormforString(CITY.value, "nom de ville")}
     )
 ; 
 
-//--> vérification des données saisies par l'utilisateur dans le formulaire 4/5
 EMAIL.addEventListener("change", function(e) {
     e.preventDefault();
     ValidateFormforEmail(EMAIL.value)}
     )
 ;
 
-//--> vérification des données saisies par l'utilisateur dans le formulaire 5/5
 ADDRESS.addEventListener("change", function(e) {
     e.preventDefault();
     ValidateFormforAdress(ADDRESS.value)}
     )
 ;
+
+//**************************création de la commande de l'utilisateur****************************//
+
+function ProductsToBuy() {
+    if (VALIDATIONFORSTRING.test(FIRSTNAME.value) && VALIDATIONFORSTRING.test(LASTNAME.value) && VALIDATIONFORSTRING.test(CITY.value) && VALIDATIONFOREMAIL.test(EMAIL.value) && VALIDATIONFORADDRESS.test(ADDRESS.value)) {
+        if (document.querySelector("article")) {
+            for (let CartParts of Cart) {
+                if (typeof CartParts.id === 'string') {
+                    ArrayofProductsToConfirm.push(CartParts.id);
+                    console.log("la commande de la totalité des produits a été enregistrée.");
+                    return ArrayofProductsToConfirm; 
+                }
+            }
+        } else {
+            alert("Vous ne pouvez effectuer une commande sans avoir introduit un article dans votre panier.");
+            console.log("la commande de la totatité des produits n'a pas pu être enregistrée.");
+            return false;
+        }
+    } else {
+        alert("Vous ne pouvez effectuer une commande sans avoir entré toutes vos informations de contact.");
+    }
+}
+  
  
-//--> effectuer la confirmation de commande qui envoie les informations de contact et la liste de produits commandés, puis renvoie sur la page de confirmation
 document.getElementById("order").addEventListener('click', async function(e) {
     e.preventDefault();
     Confirm();
 })
+
+//opérateur binaire mettre un epsace, les opérateurs unaires ne peut pas mettre espace
+let totalpriceOfarticles = totalForarticles / 100;
+
+document.getElementById("totalQuantity").innerHTML = numberOfarticles;
+document.getElementById("totalPrice").innerHTML = totalpriceOfarticles;
+
+
+//======================
+//vérifier les données saisies par l'utilisateur
+//======================
+
+
+
+document.getElementById("firstName").onchange = ValidateFormforString("firstName", "firstNameErrorMsg", "prénom");
+document.getElementById("lastName").onchange = ValidateFormforString("lastName", "lastNameErrorMsg", "nom de famille");
+document.getElementById("city").onchange = ValidateFormforString("city", "cityErrorMsg", "nom de ville");
+
+
+
+
+document.getElementById("email").onchange = ValidateFormforEmail("email", "emailErrorMsg");
+
+
+
+
+document.getElementById("address").onchange = ValidateFormforAdress("address", "addressErrorMsg");
+
+
+
+document.getElementById("order").addEventListener('click', Confirm);
+
