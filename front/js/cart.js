@@ -215,82 +215,24 @@ const CITY = document.getElementById("city");
 const EMAIL = document.getElementById("email");
 const ADDRESS = document.getElementById("address");
 
-/*let Input = document.querySelector(".cart__item__content__settings__quantity input");
-
-//--> modifier la quantité d'un produit enregistré dans le tableau
-function UpdateQtyForCartParts(ProductChanged) {
-    
-    ProductChanged.number = Input.value;
-    console.log(ProductChanged.number + 'test1');
-    const Index_modified = Cart.indexOf(ProductChanged);
-    console.log(Index_modified + 'test2');
-    Cart.splice(Index_modified, 1, ProductChanged); 
-    console.log(typeof Cart + Cart.length + Cart + 'test3');
-}
-
 //--> enregistrement d'un changement de quantité de la part de l'utilisateur
 if (document.querySelector("article")) {
-    for (let CartParts of Cart) {
+    const InputQ = document.querySelectorAll(".itemQuantity");
+    for (let H = 0; H < InputQ.length; H++) {
         
-        Input.addEventListener('input', function (e) {
+        InputQ[H].addEventListener('change', function (e) {    
             e.preventDefault();
-            console.log(Input + 'test0');
-            UpdateQtyForCartParts(CartParts);
+
+            Cart[H].number = InputQ[H].value;
+            const Index_modified = Cart.indexOf(Cart[H]);
+            Cart.splice(Index_modified, 1, Cart[H]);
+
             UpdateStorage();
-            //location.reload();
-            }
-        )
-    }
-}*/
-
-//--> modifier la quantité d'un produit enregistré dans le tableau
-function UpdateQtyForCartParts(ProductChanged) {
-    let Input = document.querySelector(".cart__item__content__settings__quantity input");
-    ProductChanged.number = Input.value;
-    
-    const Element_modified = Cart.indexOf(ProductChanged);
-    Cart.splice(Element_modified, 1, ProductChanged);
-}
-
-//--> vider le local puis y remettre le tableau mis à jour
-function UpdateStorage() {
-    localStorage.removeItem('Allproducts');
-    localStorage.setItem('Allproducts', JSON.stringify(Cart));
-    console.log("Le Storage s'est mis à jour.");
-}
-
-if (document.querySelector("article")) {
-    for (let CartParts of Cart) {
-        let Input = document.querySelector(".cart__item__content__settings__quantity input");   
-        Input.addEventListener('input', function (event) {
-            event.preventDefault();
-            UpdateQtyForCartParts(CartParts);
-            UpdateStorage();
+            location.reload();
             }
         )
     }
 }
-
-//--> enregistrement d'un changement de quantité de la part de l'utilisateur
-/*if (document.querySelector("article")) {
-    const Input = document.querySelector(".cart__item__content__settings__quantity input");
-
-    for (let U = 0; U < Input.length; U++) {
-        
-        Input.addEventListener('input', function (e) {
-            e.preventDefault();
-            console.log(Input + 'test1');
-            Cart[U].number = Input[U].value;
-            console.log(typeof Cart + Cart.length + 'testbla' + Cart[U].number);
-            const Index_modified = Cart.indexOf(Cart[U]);
-            console.log(Index_modified + 'test3' + Cart[U]);
-            Cart.splice(Index_modified, 1, Cart[U]);
-            console.log(Cart);
-            UpdateStorage();
-            }
-        )
-    }
-}*/
 
 //--> suppression d'un produit du DOM et du localStorage lors du choix de l'utilisateur
 if (document.querySelector("article")) {

@@ -47,13 +47,11 @@ async function CreateProductForCart() {
 
         let OneProduct = new Product(valueForID, quantite, couleur, valueForimage, valueForalternative, valueForname, valueForprice);   
         return OneProduct;
-
     } else {
         let quantite = document.getElementById("quantity").value;
         let couleur = document.getElementById("colors").value;
         let OneProduct = new Product(valueForID, quantite, couleur, valueForimage, valueForalternative, valueForname, valueForprice);   
         return OneProduct;
-
     }    
 }
 
@@ -65,23 +63,20 @@ async function UpdateCart() {
 
     if (Cart.length === 0) {
         Cart.push(OneProduct);
-        return Cart; 
+        return Cart;
     } else {
        for (let CartParts of Cart) {
             if (CartParts.id == OneProduct.id && CartParts.coloration == OneProduct.coloration) {
-
                 let number_inCart = parseInt(CartParts.number);
                 let number_inOneProduct = parseInt(OneProduct.number);
 
                 number_inCart += number_inOneProduct;
                 CartParts.number = number_inCart;
                 return Cart;
-
-            } else { 
-                Cart.push(OneProduct);
-                return Cart;
             }
         } 
+        Cart.push(OneProduct);
+        return Cart;
     }
 }
 
